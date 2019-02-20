@@ -1,0 +1,2597 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pt-br" lang="pt-br">
+
+<head>
+	<title>i18n.translate("titulo")</title>
+	<!-- COMANDO NECESSARIO PARA CORRETA EXIBICAO NO MOBILE -->
+	<!--<base href="http://corpflp001.cloudapp.net/"/>-->
+	<base href="/" />
+
+	<link type="text/css" rel="stylesheet" href="/portal/resources/style-guide/css/fluig-style-guide.min.css" />
+	<link type="text/css" rel="stylesheet" href="/files_atento/resources/css/jquery-ui.min.css" />
+	<link type="text/css" rel="stylesheet" href="/files_atento/resources/css/jquery-ui.structure.min.css" />
+	<link type="text/css" rel="stylesheet" href="/files_atento/resources/css/jquery-ui.theme.min.css" />
+
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery.js"></script>
+	<!-- CARREGA SCRIPTS jQuery-UI E PLUGIN jQuery Masked Input -->
+	<script type="text/javascript" src="/files_atento/resources/js/padrao.js"></script>
+	<!-- CARREGA SCRIPT Zoom Customizado -->
+	<script src="/ZoomDatasetAtento/resources/js/ZoomDatasetAtento.js"></script>
+
+	<style>
+		.popover {
+			background-color: #ffffff;
+			border: none;
+			border-radius: unset;
+			min-width: 100px;
+			width: 100%;
+			max-width: 600px;
+			z-index: 1000;
+		}
+
+		body {
+			margin: 0;
+			background-image: url('/files_atento/resources/images/bg_body.png') !important;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+		}
+
+		.container {
+			background-color: rgba(255, 255, 255, 0.8);
+			/* WHITE WITH 20% OF TRANSPARENCY */
+			/* height: 100%; */
+			margin: 0 auto;
+			padding-left: 15px;
+			padding-right: 15px;
+			padding-bottom: 25px;
+		}
+
+		form {
+			margin-bottom: 14px;
+		}
+
+		.form-control {
+			height: inherit !important;
+		}
+
+		.fluig-style-guide .page-header {
+			margin-top: 36.5px;
+			border: 0px !important;
+		}
+
+		.fluig-style-guide .panel-default {
+			margin-top: 10px !important;
+			border-color: #F47B20 !important;
+			border-radius: 1em !important;
+			border-top: 0 !important;
+			background-color: rgba(255, 255, 255, 0) !important;
+		}
+
+		.fluig-style-guide .panel-body {
+			padding: 15px 25px;
+		}
+
+		.fluig-style-guide .panel-title {
+			margin-left: 20px;
+		}
+
+		.fluig-style-guide .form-control[readonly] {
+			background-color: #eee!important;
+		}
+
+		.is-required {
+			color: #C43B1D;
+			font-size: 1.2em;
+			font-weight: bold;
+			display: inline;
+		}
+
+		.hidden {
+			display: none;
+		}
+
+		.currency {
+			text-align: right;
+		}
+
+		.mod-fieldset {
+			border: 1px solid #ccc;
+			position: relative;
+			padding: 15px;
+			margin-top: 15px;
+		}
+
+
+		h1 {
+			color: #153C6D !important;
+		}
+
+		#div-numero-processo {
+			margin: 20px 0 0 0;
+		}
+
+		.comCopia {
+			display: none;
+		}
+	</style>
+
+	<!--[if gte IE 9]>
+		<style type="text/css">
+		.gradient {
+			 filter: none;
+		}
+		</style>
+	<![endif]-->
+
+	<!-- http://timschlechter.github.io/bootstrap-tagsinput/examples/ -->
+	<!-- IMPORTADO VIA padrao.css -->
+	<!--link type="text/css" rel="stylesheet" href="./bootstrap-tagsinput.css"/-->
+	<style>
+		.tag.label.label-info {
+			font-size: 0.89em;
+			/* 75% (Default) + 14% = 89% == 0.89em */
+		}
+	</style>
+</head>
+
+<body>
+	<div class="fluig-style-guide container">
+		<form name="cotacao" role="form">
+			<input type="hidden" name="budgetAprovado" />
+			<!--Indica se ja passou pela area de aprovacao de Budget. Por padrao vem como false-->
+			<input type="hidden" name="grupoMaterialAprovado" />
+			<!--Indica se ja passou pela area de aprovacao de Materiais. Por padrao vem como false-->
+			<input type="hidden" name="capexAprovado" />
+			<!--Indica se ja passou pela area de aprovacao de Capex. Por padrao vem como false-->
+			<input type="hidden" name="todosNiveisAprovados" />
+			<!--Indica se ja passou por todos os niveis de aprovacao. Por padrao vem como false-->
+			<input type="hidden" name="requisicaoLiberada" />
+			<input type="hidden" name="qtdAnexosBefore" />
+			<input type="hidden" name="qtdAnexos" />
+			<input type="hidden" name="triagemAprovada" />
+			<input type="hidden" id="solicitante" name="solicitante" />
+			<input type="hidden" name="paisSolicitante" />
+			<input type="hidden" name="accSolicitante" />
+			<input type="hidden" name="usuarioCorporativo" />
+			<input type="hidden" name="resultBudget" />
+			<input type="hidden" id="atividade" name="atividade" />
+			<input type="hidden" id="changedType" name="changedType" />
+			<input type="hidden" id="isMobile" name="isMobile" />
+			<input type="hidden" id="confirmaRecebimento" name="confirmaRecebimento" />
+			<input type="hidden" id="secaoAEsconder" name="secaoAEsconder" />
+			<input type="hidden" id="userLogin" name="userLogin" />
+			<input type="hidden" id="userRoles" name="userRoles" />
+			<input type="hidden" id="dbg" name="dbg" />
+			<input type="hidden" id="identificador" name="identificador" />
+
+			<input type="hidden" class="numeroContrato" name="numeroContrato" />
+			<input type="hidden" class="fornecedorProrrogacao" name="fornecedorProrrogacao" />
+			<input type="hidden" class="dataInicio" name="dataInicio" />
+			<input type="hidden" class="dataFim" name="dataFim" />
+			<input type="hidden" class="flgProjetoAriba" name="flgProjetoAriba" />
+
+			<div class="row">
+				<div class="col-sm-4">
+					<img src="/files_atento/resources/images/logo.png" />
+				</div>
+				<div class="col-sm-6">
+					<div class="page-header">
+						<h1>i18n.translate("titulo")</h1>
+					</div>
+				</div>
+				<div class="col-sm-2">
+					<div id="div-numero-processo">
+						<p>
+							<strong>i18n.translate("numero_processo")</strong>
+						</p>
+						<input type="text" name="numero_processo" id="numero_processo" class="form-control" readonly />
+					</div>
+				</div>
+			</div>
+			<div id="log"></div>
+			<div class="panel panel-default secaoA" data-mockup-section="A">
+				<h3 class="panel-title">i18n.translate("secaoA")</h3>
+
+				<div class="panel-body">
+					<div class="form-group row areaPesquisa">
+						<label for="acaoRequisicao" class="control-label col-sm-2">i18n.translate("acaoRequisicao")</label>
+						<div class="col-sm-2">
+							<select name="acaoRequisicao" id="acaoRequisicao" class="form-control">
+								<option>i18n.translate("selecione")...</option>
+								<option value="criar">i18n.translate("criar")</option>
+								<!--option value="modificar">i18n.translate("modificar")</option-->
+								<option value="cancelar">i18n.translate("cancelar")</option>
+								<option value="visualizar">i18n.translate("visualizar")</option>
+							</select>
+						</div>
+					</div>
+
+					<!--TT 2015-011778 - CRIAR RC COM COPIA EM UMA ANTERIOR-->
+					<div class="comCopia">
+						<div class="form-group row">
+							<label for="descRcParaCopia" class="col-sm-2 control-label">i18n.translate("rcParaCopia")</label>
+							<input type="hidden" name="rcParaCopia" id="rcParaCopia" class="form-control" />
+							<div class="col-sm-4">
+								<!-- <div class="input-group">
+									<input type="text" name="descRcParaCopia" id="descRcParaCopia" class="form-control" readonly />
+									<a style="cursor: pointer;" class="input-group-addon" id="btnZoomRcCopia" name="btnZoomRcCopia" onclick="openZoomRcParaCopia();">
+										<i class="fluigicon fluigicon-search"></i>
+									</a>
+								</div> -->
+								
+								<input type="zoom" class="form-control" name="descRcParaCopia" id="descRcParaCopia"
+										data-zoom="{'displayKey':'REQUISICAO'
+											,'datasetId':'lista_RC_por_usuario'
+											,'fields':[{'field':'REQUISICAO','label':'Requisição SAP'}
+											,{'field':'ID_FORM','label':'REQUISIÇÃO','standard':'true','search':'true'}
+										]}"/>					
+							</div>
+
+							<div class="col-sm-2">
+								<input type="button" id="pesqRCparaCopia" class="btn btn-success" value='i18n.translate("pesquisar")' />
+							</div>
+						</div>
+					</div>
+					<div class="form-group row areaCompanyCode" style="display:none;">
+						<label for="companyCode" class="control-label col-sm-2">i18n.translate("companyCode")*</label>
+						<div class="col-sm-4">
+							<select name="companyCodeCB" id="companyCodeCB" class="form-control">
+							</select>
+							<input type="text" name="companyCodeDesc" id="companyCodeDesc" class="form-control hidden"></input>
+							<input type="text" name="companyCode" id="companyCodeDesc" class="form-control hidden"></input>
+						</div>
+						<div class="col-sm-6"></div>
+					</div>
+					<div class="form-group row camposPesquisaRequisicao">
+						<label for="numRequisicao" class="control-label col-sm-2">i18n.translate("numRequisicao")</label>
+						<div class="col-sm-4">
+							<input type="text" name="numRequisicao" id="numRequisicao" class="form-control" />
+						</div>
+						<div class="col-sm-2">
+							<input type="button" name="pesqRequisicao" id="pesqRequisicao" class="btn btn-success" maxlength="10" value='i18n.translate("pesquisar")'
+							/>
+						</div>
+						<div class="col-sm-6"></div>
+					</div>
+					<div class="areaRequisicao">
+						<div class="form-group row">
+							<input type="hidden" name="ahoraTipoDespesa" id="ahoraTipoDespesa" />
+							<label for="tipoDespesa" class="col-sm-2 control-label">i18n.translate("tipoDespesa")</label>
+							<div class="col-sm-4">
+								<select name="tipoDespesa" id="tipoDespesa" class="form-control">
+									<option value="">i18n.translate("selecione")...</option>
+									<option value="F">Capex</option>
+									<option value="K">Opex</option>
+									<option value="Z">Opex i18n.translate("aServicos")</option>
+								</select>
+							</div>
+							
+							<div class="col-sm-8"> </div>
+						</div>
+
+						<div class="form-group row campoTituloIdentificador" style="display:none;">
+							<label for="tituloProcesso" class="col-sm-2">i18n.translate("tituloIdentificador")*</label>
+							<div class="col-sm-10">
+								<input type="text" name="tituloProcesso" id="tituloProcesso" class="form-control" placeholder='i18n.translate("descrevaCompra")'
+								/>
+							</div>
+						</div>
+
+						<div class="row form-group">
+							<div class="tipoCompra" style="display:none">
+								<label for="tipoCompra" class="control-label col-sm-2">i18n.translate("tipoCompra")</label>
+								<div class="col-sm-4">
+									<div class="input-group">
+										<select name="tipoCompra" id="tipoCompra" class="form-control" onchange="reconfigurarCampos();">
+											<option value="">i18n.translate("selecione")...</option>
+											<option value="PONTUAL">i18n.translate("pontual")</option>
+											<option value="GERAL">i18n.translate("geral")</option>
+											<option value="DELEGADA">i18n.translate("delegada")</option>
+											<option value="REGULAR">i18n.translate("regularizacao")</option>
+											<option value="RFI">i18n.translate("rfi")</option>
+											<option value="PRORROG">i18n.translate("prorrogacao")</option>
+											<option value="CATALOGO">i18n.translate("catalogo")</option>
+											<option value="GERALCOND">i18n.translate("condicionadaContrato")</option>
+											<option value="PONTUALCOND">i18n.translate("condicionadaPontual")</option>
+											<option value="EXCLUSIVA">i18n.translate("exclusiva")</option>
+										</select>
+										<div class="input-group-addon">
+											<a href="javascript:openModalDescTipoCompra();" class="bs-docs-popover-hover">
+												<i class="fluigicon fluigicon-question-sign"></i>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="codigoFornecedor" style="display:none">
+								<input type="hidden" name="codigoFornecedor" id="codigoFornecedor" />
+								<label for="fornecedor" class="control-label col-sm-2">i18n.translate("fornecedor")</label>
+								<div class="col-sm-4">
+									<div class="input-group input-group-sm">
+										<input type="text" name="fornecedor" id="fornecedor" class="form-control" readonly />
+										<a style="cursor: pointer;" class="input-group-addon" id="btncodigoFornecedor" name="btncodigoFornecedor" title='i18n.translate("codigoFornecedor")'
+										 onclick="openZoomCodigoFornecedor(this)">
+											<i class="fluigicon fluigicon-search"></i>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="pesquisarCentroCusto" style="display:none">
+								<input type="hidden" name="codCentroCusto" id="codCentroCusto" />
+								<input type="hidden" name="accCentroCusto" id="accCentroCusto" />
+								<label for="centroCusto" class="control-label col-sm-2">i18n.translate("centroCusto")</label>
+								<div class="col-sm-4">
+									<div class="input-group input-group-sm">
+										<input type="text" name="centroCusto" id="centroCusto" class="form-control" readonly />
+										<a style="cursor: pointer;" class="input-group-addon" id="btnCentroCusto" name="btnCentroCusto" title='i18n.translate("centroCusto")'
+										 onclick="openZoomCentroCusto(this)">
+											<i class="fluigicon fluigicon-search"></i>
+										</a>
+									</div>
+								</div>
+							</div>
+
+							<div class="ordemInterna" style="display:none">
+								<input type="hidden" name="codOrdemInterna" id="codOrdemInterna" />
+								<label for="ordemInterna" class="control-label col-sm-2">i18n.translate("ordemInterna")</label>
+								<div class="col-sm-4">
+									<div class="input-group input-group-sm">
+										<input type="text" name="ordemInterna" id="ordemInterna" class="form-control" readonly />
+										<a style="cursor: pointer;" class="input-group-addon" id="btnOrdemInterna" name="btnOrdemInterna" title='i18n.translate("ordemInterna")'
+										 onclick="openZoomOrdemInterna(this)">
+											<i class="fluigicon fluigicon-search"></i>
+										</a>
+									</div>
+								</div>
+							</div>
+
+							<div class="codigoServico ahora" style="display:none">
+								<input type="hidden" name="codigoServico" id="codigoServico" />
+								<label for="servico" class="control-label col-sm-2">i18n.translate("codigoServico")</label>
+								<div class="col-sm-4">
+									<div class="input-group input-group-sm">
+										<input type="text" name="servico" id="servico" class="form-control" readonly />
+										<a style="cursor: pointer;" class="input-group-addon" id="btnCodigoServico" name="btnCodigoServico" title='i18n.translate("codigoServico")'
+										 onclick="openZoomCodigoServico(this)">
+											<i class="fluigicon fluigicon-search"></i>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--================ENTRARA EM VIGOR NO SAP BRASIL=======================================================-->
+						<div class="codigoServico mod-fieldset brasil" style="display:none">
+							<p class="subtitulo">i18n.translate("codigoServico")
+								<strong class="is-required">*</strong>
+							</p>
+							<input type="hidden" name="centroLucro" id="centroLucro" />
+							<div class="form-group row">
+								<div class="col-sm-3">
+									<label for="codigoDocVendas" class="control-label">i18n.translate("codDocVendas")</label>
+									<div class="input-group input-group-sm">
+										<input type="text" name="codigoDocVendas" id="codigoDocVendas" class="form-control" />
+										<a style="cursor: pointer;" class="input-group-addon" id="btnCodigoDocVendas" name="btnCodigoDocVendas" title='i18n.translate("codigoDocVendas")'
+										 onclick="openZoomCodigoServico(this)">
+											<i class="fluigicon fluigicon-search"></i>
+										</a>
+									</div>
+								</div>
+
+								<div class="col-sm-3">
+									<label for="codigoCliente" class="control-label">i18n.translate("codCliente")</label>
+									<input type="text" name="codigoCliente" id="codigoCliente" readonly class="form-control" />
+								</div>
+
+								<div class="col-sm-3">
+									<label for="siteOperacao" class="control-label">i18n.translate("siteOperacao")</label>
+									<input type="text" name="siteOperacao" id="siteOperacao" readonly class="form-control" />
+								</div>
+
+								<div class="col-sm-3">
+									<label for="produtoPrincipal" class="control-label">i18n.translate("produtoPrincipal")</label>
+									<input type="text" name="produtoPrincipal" id="produtoPrincipal" readonly class="form-control" />
+								</div>
+							</div>
+						</div>
+
+
+						<div class="tabelaMateriais" style="display:none">
+							<br/>
+							<input type="hidden" id="ja_clicado" name="ja_clicado" />
+							<div id="materiais" class="table-responsive">
+								<table name="rc_atento" id="rc_atento" tablename="rc_atento" noaddbutton="true" nodeletebutton="true" colspan="1" class="table table-condensed table-striped">
+									<thead>
+										<tr>
+											<th>i18n.translate("planta")</th>
+											<th>i18n.translate("material")</th>
+											<th>i18n.translate("observacaoMaterial")</th>
+											<th>i18n.translate("contaContabil")</th>
+											<th>i18n.translate("quantidade")</th>
+											<th>i18n.translate("preco")</th>
+											<th>i18n.translate("total")</th>
+											<th>i18n.translate("dtRemessa")&nbsp;
+												<a href="javascript:;" class="bs-docs-popover-hover1 " data-container="body"
+												 data-toggle="popover" title="" data-content="i18n.translate(" tooltipDataRemessa ")" data-original-title="Popover title">
+													<i class="fluigicon fluigicon-question-sign"></i>
+												</a>
+											</th>
+											<th class="text-center">
+												<img src="/files_atento/resources/images/adicionar.png" alt='i18n.translate("adcionarLinha")' title='i18n.translate("adcionarLinha")'
+												 style="cursor: pointer;" onclick="wdkAddChild('rc_atento');criarMascara();bloqueiaCampo();" class="imgTabela"
+												/>
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class="listMaterial">
+											<td class="col-sm-2">
+												<input type="hidden" value="" id="cdPlanta" name="cdPlanta" />
+												<div class="input-group input-group-sm">
+													<input id="planta" name="planta" type="text" class="form-control" style="min-width: 180px !important" readonly />
+													<a style="cursor: pointer;" class="input-group-addon" id="btnPlanta" name="btnPlanta" title='i18n.translate("selecionarPlanta")'
+													 onclick="openZoomPlanta(this)">
+														<i class="fluigicon fluigicon-search"></i>
+													</a>
+												</div>
+												<input type="hidden" value="" id="hiddenIndex" name="hiddenIndex" />
+											</td>
+
+											<td class="col-sm-2">
+												<input type="hidden" value="" id="cdMaterial" name="cdMaterial" />
+												<input type="hidden" value="" id="grupoMaterial" name="grupoMaterial" />
+												<div class="input-group input-group-sm">
+													<input id="material" name="material" type="text" class="form-control" style="min-width: 200px !important; text-align:right"
+													 readonly />
+													<a style="cursor: pointer;" class="input-group-addon" id="btnMaterial" name="btnMaterial" title='i18n.translate("selecionarMaterial")'
+													 onclick="openZoomMaterial(this)">
+														<i class="fluigicon fluigicon-search"></i>
+													</a>
+												</div>
+											</td>
+
+											<td>
+												<div class="input-group input-group-sm">
+													<input type="text" name="observacaoMaterial" id="observacaoMaterial" class="form-control" style="min-width: 100px !important"
+													/>
+												</div>
+											</td>
+											
+											<td>
+												<div class="input-group input-group-sm">
+													<input type="text" name="contaContabil" id="contaContabil" readonly class="form-control" style="min-width: 90px !important"
+													/>
+												</div>
+											</td>
+
+											<td>
+												<div class="input-group input-group-sm bloqueiaCampos">
+													<input type="text" id="quantidade" name="quantidade" class="form-control bloqueiaCampos" style="width: 90px !important;"
+													 onKeyPress="return numbersonly(this, event)" onchange="calcularRC();" />
+												</div>
+											</td>
+
+											<td>
+												<div class="input-group input-group-sm bloqueiaCampos">
+													<input type="text" id="preco" name="preco" class="form-control bloqueiaCampos" onchange="calcularRC();" style="min-width: 90px !important"
+													/>
+												</div>
+											</td>
+
+											<td>
+												<div class="input-group input-group-sm ">
+													<input type="text" id="total" name="total" readonly class="form-control" style="min-width: 90px !important" />
+												</div>
+											</td>
+
+											<td>
+												<div class="input-group input-group-sm">
+													<input type="text" id="dtRemessa" name="dtRemessa" class="form-control" style="min-width: 85px !important" />
+												</div>
+											</td>
+
+											<td class="text-center">
+
+												<img src="/files_atento/resources/images/adicionar.png" alt='i18n.translate("adcionarLinha")' title='i18n.translate("adcionarLinha")'
+												 id="imgAddLinha" name="imgAddLinha" style="cursor: pointer;" onclick="fcnDuplicaLinha(this);bloqueiaCampo();"
+												 class="imgTabela" />
+
+
+												<img src="/files_atento/resources/images/remover.png" alt='i18n.translate("removerLinha")' title='i18n.translate("removerLinha")'
+												 onclick="removerLinha(this);" style="cursor: pointer;" class="imgTabela" />
+												<span class="numeroPedido fluigicon fluigicon-comment" style="display:none;"></span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<div id="totalEmoeda" class="form-group row">
+								<label for="totalRC" class="control-label col-sm-2 col-sm-offset-6">i18n.translate("totalRequisicao")</label>
+								<div class="col-sm-4">
+									<div class="input-group">
+										<span class="input-group-btn">
+											<select name="moeda" id="moeda" dataset="dsMoedasAtivas" datasetkey="id" datasetvalue="codigo" addBlankLine="false" class="form-control"
+											 style="min-width: 80px !important; "></select>
+										</span>
+										<input type="text" id="totalRC" name="totalRC" readonly="true" class="form-control text-right" />
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<div class="col-sm-3">
+									<label for="usuarioFluig" class="control-label">i18n.translate("usuarioFluig")</label>
+									<input type="text" name="matriculaUsuarioFluig" id="matriculaUsuarioFluig" style="display: none;" readonly="readonly" class="form-control"
+									/>
+									<input type="text" name="usuarioFluig" id="usuarioFluig" readonly="readonly" class="form-control" />
+								</div>
+
+								<div class="col-sm-3">
+									<label for="emailUsuario" class="control-label">i18n.translate("emailUsuario")</label>
+									<input type="text" name="emailUsuario" id="emailUsuario" readonly="readonly" class="form-control" />
+								</div>
+
+								<div class="col-sm-3" id="fgRequisicaoSap">
+									<label for="requisicaoSAP" class="control-label">i18n.translate("requisicaoSAP")</label>
+									<input type="text" name="requisicaoSAP" id="requisicaoSAP" readonly class="form-control" />
+								</div>
+
+								<div class="col-sm-3" id="dataRequisicaoSap">
+									<label for="dataRequisicao" class="control-label">i18n.translate("dataRequisicao")</label>
+									<input type="text" name="dataRequisicao" id="dataRequisicao" readonly class="form-control" />
+								</div>
+							</div>
+
+							<!-- CAMPO DO BRASIL
+							<div class="form-group row">
+								<label for="obsRC" class="col-sm-12">i18n.translate("observacao")</label>
+								<div class="col-sm-12">
+									<textarea name="obsRC" id="obsRC" class="form-control" rows="5"></textarea>
+								</div>
+							</div>-->
+						</div>
+
+						<div class="table-responsive" id="tabelaProrrogacao">
+							<table name="camposProrrogacao" id="camposProrrogacao" tablename="camposProrrogacao" noaddbutton="true" nodeletebutton="true"
+							 colspan="1" class="table table-condensed table-striped">
+								<thead>
+									<tr>
+										<th>i18n.translate("numeroContrato")</th>
+										<th>i18n.translate("dataInicio")</th>
+										<th>i18n.translate("dataFim")</th>
+										<th>i18n.translate("fornecedor")</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr></tr>
+									<tr detail="true" style="display: table-row;" detailname="camposProrrogacao">
+										<td class="col-sm-2">
+											<div class="input-group input-group-sm">
+												<input id="txtNumeroContrato" name="txtNumeroContrato" type="text" class="form-control" style="min-width: 180px !important"
+												 readonly="readonly" />
+												<a style="cursor: pointer;" class="input-group-addon" id="btnPlanta" name="btnNumeroContrato" title="Selecionar Contrato"
+												 onclick="openZoomNumeroContrato(this)">
+													<i class="fluigicon fluigicon-search"></i>
+												</a>
+											</div>
+										</td>
+										<td class="col-sm-2">
+											<div class="input-group input-group-sm">
+												<input id="txtDataInicio" name="txtDataInicio" type="text" class="form-control" style="min-width: 130px !important; text-align:right"
+												 readonly="readonly" />
+											</div>
+										</td>
+
+										<td class="col-sm-2">
+											<div class="input-group input-group-sm">
+												<input id="txtDataFim" name="txtDataFim" type="text" class="form-control" style="min-width: 130px !important; text-align:right"
+												 readonly="readonly" />
+											</div>
+										</td>
+
+										<td class="col-sm-2">
+											<div class="input-group input-group-sm">
+												<input type="text" id="txtFornecedorProrrogacao" name="txtFornecedorProrrogacao" class="form-control text-right" style="width: 360px !important;"
+												 readonly="readonly" />
+											</div>
+										</td>
+
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="form-group row" id="dataProrrogacao" style="display: block;">
+							<label for="optDataProrrogacao" class="control-label col-sm-2">i18n.translate("dataProrrogacao")</label>
+							<div class="col-sm-10">
+								<label>
+									<input type="radio" name="optDataProrrogacao" id="optDataProrrogacao1" value="1" checked="checked" />1 i18n.translate("mes")
+								</label>
+								<label>
+									<input type="radio" name="optDataProrrogacao" id="optDataProrrogacao2" value="2" />2 i18n.translate("meses")
+								</label>
+								<label>
+									<input type="radio" name="optDataProrrogacao" id="optDataProrrogacao3" value="3" />3 i18n.translate("meses")
+								</label>
+							</div>
+						</div>
+						<div class="tabelaMateriais" style="display: none">
+							<div class="form-group row">
+								<label for="obsRC" class="col-sm-12">i18n.translate("observacao")</label>
+								<div class="col-sm-12">
+									<textarea name="obsRC" id="obsRC" class="form-control" rows="5"></textarea>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel panel-default secaoC" data-mockup-section="C">
+				<h3 class="panel-title">i18n.translate("secaoC")</h3>
+				<div class="panel-body">
+					<input type="hidden" name="totalLevelAprovals" />
+					<input type="hidden" name="actualLevelAproval" />
+
+					<table name="rc_aprovadores" id="rc_aprovadores" tablename="rc_aprovadores" nodeletebutton="true" noaddbutton="true" cellspacing="1"
+					 class="table table-striped">
+						<thead>
+							<tr>
+								<th>
+									i18n.translate("grupoAprovador")
+								</th>
+								<th>
+									i18n.translate("aprovador")
+								</th>
+								<th>
+									i18n.translate("decisaoAprovacao")
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<input type="text" name="grupoAprovador" id="grupoAprovador" readonly class="form-control" />
+								</td>
+								<td>
+									<input type="text" name="nomeAprovador" id="nomeAprovador" readonly="readonly" class="form-control" />
+									<input type="text" name="aprovador" id="aprovador" style="display:none;" readonly="readonly" class="form-control" />
+								</td>
+								<td>
+									<label>
+										<input type="radio" name="optAProvar" id="optAProvarSim" value="sim" onclick="setAprove(this)" /> i18n.translate("sim")
+									</label>
+									<label>
+										<input type="radio" name="optAProvar" id="optAProvarNao" value="nao" onclick="setRefusal(this)" /> i18n.translate("nao")
+									</label>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<div class="form-group row justificativa" style="display: none;">
+						<label for="justificativa" class="col-sm-12">i18n.translate("justificativa")</label>
+						<div class="col-sm-12">
+							<textarea name="justificativa" id="justificativa" class="form-control" rows="5"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel panel-default secaoD">
+				<div class="panel-body">
+					<div class="form-group row">
+
+						<div class="col-sm-4 escondeNumPedidoGerado">
+							<label for="numPedidoGerado" class="control-label">i18n.translate("numPedidoGerado")</label>
+							<input type="text" name="numPedidoGerado" id="numPedidoGerado" class="form-control" />
+						</div>
+
+						<div class="col-sm-4 escondeStatusPedido">
+							<label for="statusPedido" class="control-label">i18n.translate("statusPedido")</label>
+							<select name="statusPedido" id="statusPedido" class="form-control" />
+							<option></option>
+							<option value="aprovado">i18n.translate("aprovado")</option>
+							<option value="bloqueado">i18n.translate("bloqueado")</option>
+							<option value="rejeitado">i18n.translate("rejeitado")</option>
+							</select>
+						</div>
+						
+						<div class="col-sm-4">
+							<label for="projetoAriba" class="control-label">i18n.translate("projetoAriba")</label>
+							<input type="text" name="projetoAriba" id="projetoAriba" class="form-control" />
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel panel-default secaoE">
+				<div class="panel-body">
+					<div class="form-group row comentarioComprador">
+						<label for="comentarioComprador" class="col-sm-12">i18n.translate("comentarioComprador")</label>
+						<div class="col-sm-12">
+							<textarea name="comentarioComprador" id="comentarioComprador" class="form-control" rows="5"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="panel panel-default secaoF">
+				<!-- <div class="panel-body">
+			        <div class="form-group row">
+			            <label for="optConfirmarRecebimento" class="control-label col-sm-2">i18n.translate("confirmaRecebimento")</label>
+			            <div class="col-sm-4">
+			                <label>
+			                    <input type="radio" name="optConfirmarRecebimento" id="optConfirmarRecebimentoSim" value="sim" checked="checked"  /> i18n.translate("sim")
+			                </label>
+			                <label>
+			                    <input type="radio" name="optConfirmarRecebimento" id="optConfirmarRecebimentoNao" value="nao" /> i18n.translate("nao")
+			                </label>
+			            </div>
+			        </div>
+			    </div> -->
+				<table name="tb_recebedor" id="tb_recebedor" tablename="tb_recebedor" nodeletebutton="true" noaddbutton="true" cellspacing="1"
+				 class="table table-striped">
+					<thead>
+						<tr>
+							<th>i18n.translate("grupoRecebedor")</th>
+							<th>i18n.translate("recebedor")</th>
+							<th>i18n.translate("confirmaRecebimento")</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								<input type="text" name="grupoRecebedor" id="grupoRecebedor" readonly="readonly" class="form-control" />
+							</td>
+							<td>
+								<input type="text" name="nomeRecebedor" id="nomeRecebedor" readonly="readonly" class="form-control" />
+							</td>
+							<td>
+								<div class="col-sm-3" align="center">
+									<label>
+										<input type="checkbox" id="encerrar" name="encerrar" value="S" />
+									</label>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+		</form>
+	</div>
+
+	<script src="/webdesk/vcXMLRPC.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		maskThousands = '';
+		maskDecimal = '';
+
+		console.log("Before Conferir Anexos");
+		confereAnexos();
+
+		var isMobile = $("#isMobile").val();
+
+		var selectedCompanyCode = null;
+
+		function openModalDescTipoCompra() {
+
+			var content = 'i18n.translate("tooltipTipoCompra")';
+
+			var myModal = window.parent.FLUIGC.modal({
+				title: '',
+				content: content,
+				id: 'fluig-modal',
+				actions: [{
+					'label': 'Ok',
+					'autoClose': true
+				}]
+			});
+
+		}
+
+		$(document).ready(function () {
+			if ($('input[name="paisSolicitante"]').val() !== 'undefined' && $('input[name="paisSolicitante"]').val() != '') {
+				if ($('input[name="paisSolicitante"]').val() == 'MX') {
+					maskThousands = ',';
+					maskDecimal = '.';
+				} else {
+					maskThousands = '.';
+					maskDecimal = ',';
+				}
+			}
+			
+			
+
+			console.log("Atividade: " + $("#atividade").val());
+
+			console.log("FORM_MODE: " + FORM_MODE);
+			if (FORM_MODE == "VIEW") {
+				$('#companyCodeDesc').removeClass('hidden');
+				$('#companyCodeCB').empty();
+				
+				//Consultando Moeda
+				var solic = $("[name='numero_processo']").text();
+				var c1 = DatasetFactory.createConstraint('nr_solicitacao', solic, solic, ConstraintType.MUST);
+				var constraints = new Array(c1);
+				var dsMoedas = DatasetFactory.getDataset("dsBuscarMoedaSolicitacao", null, constraints, null);
+
+				dsMoedas.values.forEach(function(e){
+					$("[name='moeda']").text(e.codigo);
+				});
+				
+				console.log("arr_moeda");
+				console.log(dsMoedas);
+				
+			} else {
+				if (($("#atividade").val() != 0 && $("#atividade").val() != 2) || (atividade == "") || (atividade == null)) {
+					//loadCompanyCode();2979
+					$('[name="companyCodeCB"]').addClass('hidden');
+					$('[name="companyCodeDesc"]').parent().append('<span class="form-control">' + $('[name="companyCodeDesc"]').val() + '</span>');
+				} else {
+					selectedCompanyCode = $('[name="companyCode"]').val();
+					console.log($('[name="companyCode"]').val());
+					if ($('[name="companyCode"]').val() != "") {
+						loadCompanyCode($('[name="companyCode"]').val());
+					}
+
+					resetMask();
+				}
+				
+				//Consultando Moeda
+				var solic = $("[name='numero_processo']").val();
+				var c1 = DatasetFactory.createConstraint('nr_solicitacao', solic, solic, ConstraintType.MUST);
+				var constraints = new Array(c1);
+				var dsMoedas = DatasetFactory.getDataset("dsBuscarMoedaSolicitacao", null, constraints, null);
+				
+				dsMoedas.values.forEach(function(e){
+					$("[name='_moeda']").text(e.codigo);
+				});
+				
+				console.log("arr_moeda");
+				console.log(dsMoedas);
+			}
+			setCamposProrrog();
+			
+			var tipoCompra = document.querySelector("#tipoCompra").value
+			if(tipoCompra == "RFI" || tipoCompra == "CATALOGO" || tipoCompra == "PRORROG" || tipoCompra == "GERAL" 
+			&& ($("#atividade").val() != "0" && $("#atividade").val() != "4")){
+				$(".tabelaMateriais").show()
+			} else {
+				if($("#tipoCompra").text() == "Prorrogação"){
+					$(".tabelaMateriais").show()
+				} else {
+					$(".tabelaMateriais").hide()
+				}
+				
+			}
+		});
+
+		function setCamposProrrog() {
+
+			$('input#txtNumeroContrato').val($('input.numeroContrato').val());
+			$('input#txtFornecedorProrrogacao').val($('input.fornecedorProrrogacao').val());
+			$('input#txtDataInicio').val($('input.dataInicio').val());
+			$('input#txtDataFim').val($('input.dataFim').val());
+
+		}
+
+		function listarRCParaCopia(solicitante) {
+			var c1 = DatasetFactory.createConstraint('solicitante', solicitante, solicitante, ConstraintType.MUST);
+			var constraints = new Array(c1);
+
+			var datasetResult = DatasetFactory.getDataset("lista_RC_por_usuario", null, constraints, null);
+			for (var r = 0; r < datasetResult.values.length; r++) {
+				$('#rcParaCopia').append($('<option>', {
+					value: datasetResult.values[r].ID_FORM,
+					text: datasetResult.values[r].REQUISICAO
+				}));
+			}
+		}
+
+		$('#pesqRCparaCopia').click(function () {
+			if ($('#rcParaCopia').val() != "") {
+
+				var c1 = DatasetFactory.createConstraint('id', $('#rcParaCopia').val(), $('#rcParaCopia').val(), ConstraintType.MUST);
+				var constraints = new Array(c1);
+
+				var datasetPrincipal = DatasetFactory.getDataset("Requisicao_Compra", null, constraints, null);
+
+				if (datasetPrincipal.values.length > 0) {
+					var centroLucro = verificaCentroLucroPais($("input[name='accSolicitante']").val());
+					$('#tipoDespesa').val(datasetPrincipal.values[0].tipoDespesa);
+					$('#tipoCompra').change();
+
+					$('#centroCusto').val(datasetPrincipal.values[0].centroCusto);
+					$('#codCentroCusto').val(datasetPrincipal.values[0].codCentroCusto);
+					$('#ordemInterna').val(datasetPrincipal.values[0].ordemInterna);
+					$('#codOrdemInterna').val(datasetPrincipal.values[0].codOrdemInterna);
+					$('#tipoCompra').val(datasetPrincipal.values[0].tipoCompra);
+
+					$('#codigoFornecedor').val(datasetPrincipal.values[0].codigoFornecedor);
+					if ($('#tipoCompra').val() == "REGULAR" || $('#tipoCompra').val() == "DELEGADA" || $('#tipoCompra').val() == "GERALCOND" || $('#tipoCompra').val() == "PONTUALCOND") {
+						$('.codigoFornecedor').show();
+					} else {
+						$('.codigoFornecedor').hide();
+					}
+
+					/* Brasil */
+					if (centroLucro) {
+						$('#codigoDocVendas').val(datasetPrincipal.values[0].codigoDocVendas);
+						$('#codigoCliente').val(datasetPrincipal.values[0].codigoCliente);
+						$('#siteOperacao').val(datasetPrincipal.values[0].siteOperacao);
+						$('#produtoPrincipal').val(datasetPrincipal.values[0].produtoPrincipal);
+						$('#centroLucro').val(datasetPrincipal.values[0].centroLucro);
+					}
+
+					$('input[name="numeroContrato"]').val(datasetPrincipal.values[0].numeroContrato);
+					$('input[name="fornecedorProrrogacao"]').val(datasetPrincipal.values[0].fornecedorProrrogacao);
+					$('input[name="dataInicio"]').val(datasetPrincipal.values[0].dataInicio);
+					$('input[name="dataFim"]').val(datasetPrincipal.values[0].dataFim);
+					$('#optDataProrrogacao' + datasetPrincipal.values[0].optDataProrrogacao).attr("checked", true);
+					$('#txtNumeroContrato').val(datasetPrincipal.values[0].numeroContrato);
+					$('#numeroContrato').val(datasetPrincipal.values[0].numeroContrato);
+
+					$('#fornecedor').val(datasetPrincipal.values[0].fornecedor);
+
+					$('#servico').val(datasetPrincipal.values[0].servico);
+					$('#codigoServico').val(datasetPrincipal.values[0].codigoServico);
+					$('#moeda').val(datasetPrincipal.values[0].moeda);
+					$('#totalRC').val(datasetPrincipal.values[0].totalRC);
+					$('#obsRC').val(datasetPrincipal.values[0].obsRC);
+					$('#accCentroCusto').val(datasetPrincipal.values[0].accCentroCusto);
+					selectedCompanyCode = datasetPrincipal.values[0].companyCode;
+					loadCompanyCode(selectedCompanyCode);
+
+					var documentId = $(datasetPrincipal.values[0]).attr('metadata#id');
+					var documentVersion = $(datasetPrincipal.values[0]).attr('metadata#version');
+
+					//Cria as constraints para buscar os campos filhos, passando o tablename, número da formulário e versão
+					var c1 = DatasetFactory.createConstraint("tablename", "rc_atento", "rc_atento", ConstraintType.MUST);
+					var c2 = DatasetFactory.createConstraint("metadata#id", documentId, documentId, ConstraintType.MUST);
+					var c3 = DatasetFactory.createConstraint("metadata#version", documentVersion, documentVersion, ConstraintType.MUST);
+					var constraintsFilhos = new Array(c1, c2, c3);
+
+					var datasetFilhos = DatasetFactory.getDataset("Requisicao_Compra", null, constraintsFilhos, null);
+
+					if (datasetFilhos.values.length > 0) {
+						$('#cdPlanta___1').val(datasetFilhos.values[0].cdPlanta);
+						$('#planta___1').val(datasetFilhos.values[0].planta);
+						$('#grupoMaterial___1').val(datasetFilhos.values[0].grupoMaterial);
+						$('#cdMaterial___1').val(parseInt(datasetFilhos.values[0].cdMaterial));
+						$('#material___1').val(datasetFilhos.values[0].material);
+						$('#contaContabil___1').val(datasetFilhos.values[0].contaContabil);
+						$('#observacaoMaterial___1').val(datasetFilhos.values[0].observacaoMaterial);
+						$('#quantidade___1').val(parseInt(datasetFilhos.values[0].quantidade));
+						$('#preco___1').val(datasetFilhos.values[0].preco);
+						$('#total___1').val(datasetFilhos.values[0].total);
+						$('#dtRemessa___1').val(datasetFilhos.values[0].dtRemessa);
+
+						for (var f = 1; f < datasetFilhos.values.length; f++) {
+							var linha = wdkAddChild('rc_atento');
+							criarMascara();
+
+							$('#cdPlanta___' + linha).val(datasetFilhos.values[f].cdPlanta);
+							$('#planta___' + linha).val(datasetFilhos.values[f].planta);
+							$('#grupoMaterial___' + linha).val(datasetFilhos.values[f].grupoMaterial);
+							$('#cdMaterial___' + linha).val(datasetFilhos.values[f].cdMaterial);
+							$('#material___' + linha).val(datasetFilhos.values[f].material);
+							$('#contaContabil___'  + linha).val(datasetFilhos.values[0].contaContabil);
+							$('#observacaoMaterial___' + linha).val(datasetFilhos.values[f].observacaoMaterial);
+							$('#quantidade___' + linha).val(parseInt(datasetFilhos.values[f].quantidade));
+							$('#preco___' + linha).val(datasetFilhos.values[f].preco);
+							$('#total___' + linha).val(datasetFilhos.values[f].total);
+							$('#dtRemessa___' + linha).val(datasetFilhos.values[f].dtRemessa);
+						}
+					}
+					$('#companyCodeCB').change();
+					$('#tipoDespesa').change();
+					$('[name="companyCodeCB"]').attr("readonly", "readonly");
+				}
+				
+				if ($("#tipoDespesa").val() == "K"){
+					$(".codigoServico").hide();
+				}else {
+					$(".codigoServico").show();
+				}
+				
+				$('.comCopia').hide();
+				
+			} else
+				alert('i18n.translate("alertaRCParaCopia")');
+		});
+
+		$('select[name="acaoRequisicao"]').change(function () {
+			var select = $(this).val();
+			if (select == "criar") {
+				$('.areaCompanyCode').show();
+				$('.areaPesquisa').hide();
+				$('.areaRequisicao').hide();
+				$('.comCopia').show();
+				updateCompanyCodeCB();
+				wdkAddChild('rc_atento');
+				criarMascara();
+				reloadZoomFilterValues("descRcParaCopia", "solicitante," +  $('#usuarioFluig').val());				
+			} else if (select == "cancelar" || select == "modificar" || select == "visualizar") {
+				$('.areaCompanyCode').show();
+				updateCompanyCodeCB();
+			}
+		});
+
+		$("[name=companyCodeCB]").change(function () {
+			var cdEmpresa = $("#companyCodeCB option:selected").val();
+			var nmEmpresa = $("#companyCodeCB option:selected").text();
+
+			getPaisByAcc(this);
+
+			if (this.getAttribute("readonly") == "readonly") {
+				this.value = selectedCompanyCode;
+				return;
+			} else {
+				selectedCompanyCode = this.value;
+			}
+		
+			$("[name=companyCodeDesc]").val(nmEmpresa);
+			$("[name=companyCode]").val(cdEmpresa);
+
+			if($("#acaoRequisicao").val() == "cancelar" || $("#acaoRequisicao").val() == "visualizar"){
+				$('.camposPesquisaRequisicao').show();
+				return;
+			}
+			
+			if ($('[name=companyCodeCB]').val() == "") {
+				$('[name=companyCodeCB]').removeAttr("readonly");
+				$('select[name="tipoDespesa"]').val("");
+				$('select[name="tipoDespesa"]').change();
+				$('.areaPesquisa').hide();
+				$('.areaRequisicao').hide();
+			} else {
+				$('[name=companyCodeCB]').attr("readonly", "true");
+				$('.areaPesquisa').hide();
+				$('.areaRequisicao').show();
+				$('.comCopia').show();
+			}
+			
+			validarMoedaPais();
+
+			var c1 = DatasetFactory.createConstraint("empresa", cdEmpresa, cdEmpresa, ConstraintType.MUST);
+			var dsPaisSolic = DatasetFactory.getDataset("dsBuscarPaisEmpresa", null, [c1], null);
+			var paisPai = dsPaisSolic.values[0]["Pais_Pai"];
+			$("#identificador").val(paisPai);
+		});
+
+		$('input:button[name="pesqRequisicao"]').click(function () {
+			document.body.style.cursor = "wait";
+
+			var numReqCompra = $('#numRequisicao').val();
+			var empresa = $('#companyCodeCB').val();
+			
+			if(empresa == ""){
+				alert('i18n.translate("alertaEmpresaBranco")');
+			}else if (numReqCompra == ""){
+				alert('i18n.translate("alertaRequisicaoBranco")');
+			}
+						
+			else {
+				var campos = new Array();
+				var acc = $("input[name='accSolicitante']").val();
+				campos.push(numReqCompra);
+				campos.push(acc);
+				var centroLucro = verificaCentroLucroPais($("input[name='accSolicitante']").val());
+				
+				var datasetResult = DatasetFactory.getDataset("Atento_SAP_Visualizar_RC", campos, null, null);
+
+				console.log(datasetResult.values[0].ERRO);
+
+				if (datasetResult.values.length <= 0)
+					alert('i18n.translate("alertaRequisicaoNaoEncontrado")');
+				else if (datasetResult.values[0].NUMBER == 407)
+					alert('i18n.translate("alertaRequisicaoNaoEncontrado")');
+				else {
+					if (datasetResult.values[0].REL_IND != "X" || $('select[name="acaoRequisicao"]').val() == "visualizar") {
+						$('.areaRequisicao').show();
+						$('.areaPesquisa').hide();
+						$('input[name="requisicaoLiberada"]').val(true);
+
+						var valorTotal = 0;
+
+						if (datasetResult.values[0].COSTCENTER == "") {
+							$('#centroCusto').val(datasetResult.values[0].GR_RCPT);
+							$('#codCentroCusto').val(datasetResult.values[0].GR_RCPT);
+						} else {
+							$('#centroCusto').val(datasetResult.values[0].COSTCENTER);
+							$('#codCentroCusto').val(datasetResult.values[0].COSTCENTER);
+						}
+
+						$('#accCentroCusto').val(datasetResult.values[0].CO_AREA);
+
+						$('#ordemInterna').val(datasetResult.values[0].ORDERID);
+						$('#codOrdemInterna').val(datasetResult.values[0].ORDERID);
+
+						$('#codigoServico').val(datasetResult.values[0].ORDERID);
+						$('#servico').val(datasetResult.values[0].ORDERID);
+
+						$('#codigoFornecedor').val(datasetResult.values[0].DES_VENDOR);
+						$('#fornecedor').val(datasetResult.values[0].DES_VENDOR);
+
+						$('#tipoCompra').val(datasetResult.values[0].PREQ_NAME);
+
+						if ($('#tipoCompra').val() == "REGULAR" || $(this).val() == "DELEGADA" || $(this).val() == "GERALCOND" || $(this).val() == "PONTUALCOND") {
+							$('.codigoFornecedor').show();
+						}
+						else {
+							$('.codigoFornecedor').hide();
+						}
+
+						if (centroLucro) {
+							$('#centroLucro').val(datasetResult.values[0].PROFIT_CTR);
+							$('#codigoDocVendas').val(datasetResult.values[0].CODDOCVENDAS);
+							$('#codigoCliente').val(datasetResult.values[0].CODCLIENTE);
+							$('#siteOperacao').val(datasetResult.values[0].SITEOPERACAO);
+							$('#produtoPrincipal').val(datasetResult.values[0].PRODUTOPRINCIPAL);
+						}
+						// Converter despesa do Brasil para o Ahora
+						var vl_tipo_despesa = ""; 
+						if(centroLucro){
+							if(datasetResult.values[0].ACCTASSCAT == "F"){
+								vl_tipo_despesa = "1";
+							} else if(datasetResult.values[0].ACCTASSCAT == "K" || datasetResult.values[0].ACCTASSCAT == "Z"){
+								vl_tipo_despesa = "2";
+							}
+						}else{
+							vl_tipo_despesa = datasetResult.values[0].ACCTASSCAT;
+						}
+						
+						$('#ahoraTipoDespesa').val(vl_tipo_despesa);
+						
+						if ($('#ahoraTipoDespesa').val() == "1") {
+							$('#tipoDespesa').val('F');
+
+							$('.ordemInterna').show();
+							$('.codigoServico').hide();
+
+							$('.pesquisarCentroCusto').show();
+							$('.tipoCompra').show();
+							$('.tabelaMateriais').show();
+
+							if ($('#codCentroCusto').val() == "" && $('#ordemInterna').val() != "") {
+								var cOI1 = DatasetFactory.createConstraint('CODE', $('#ordemInterna').val(), $('#ordemInterna').val(), ConstraintType.MUST);
+								var cOI = new Array(cOI1);
+
+								//var ondemInterna = new Array();
+								//ondemInterna.push($('#ordemInterna').val());
+
+								var datasetResultOI = DatasetFactory.getDataset("Atento_DM_OrdemInterna", null, cOI, null);
+								$('#centroCusto').val(datasetResultOI.values[0].RESPONSIBLECOSTCENTER);
+								$('#codCentroCusto').val(datasetResultOI.values[0].RESPONSIBLECOSTCENTER);
+								$('#centroCusto').parent().find('a').hide();
+							}
+						} else {
+							var vl_cod_servico_ahora = $('#codigoServico').val();
+							var vl_cod_vendas_brasil = $('#codigoDocVendas').val();
+							
+							if (vl_cod_servico_ahora != "" || vl_cod_vendas_brasil != "") {
+								$('#tipoDespesa').val('Z');
+								$('.ordemInterna').hide();
+
+								if (centroLucro) {
+									$('.codigoServico.brasil').show();
+									$('.codigoServico.ahora').hide();
+									$(".pesquisarCentroCusto").hide()
+								} else{
+									$('.codigoServico.ahora').show();
+									$('.codigoServico.brasil').hide();
+									$(".pesquisarCentroCusto").show()
+								}
+
+								$('.tipoCompra').show();
+								$('.tabelaMateriais').show();
+							} else {
+								$('#tipoDespesa').val('K');
+
+								$('.ordemInterna').hide();
+								$('.codigoServico').hide();
+
+								$('.pesquisarCentroCusto').show();
+								$('.tipoCompra').show();
+								$('.tabelaMateriais').show();
+							}
+						}
+
+						for (var r = 0; r < datasetResult.values.length; r++) {
+							wdkAddChild('rc_atento');
+							criarMascara();
+							$('#cdPlanta___' + (r + 1)).val(datasetResult.values[r].PLANT);
+							$('#planta___' + (r + 1)).val(datasetResult.values[r].PLANT);
+							$('#grupoMaterial___' + (r + 1)).val(datasetResult.values[r].MATL_GROUP);
+							$('#cdMaterial___' + (r + 1)).val(datasetResult.values[r].MATERIAL);
+							$('#material___' + (r + 1)).val(datasetResult.values[r].MATERIAL);
+							$('#quantidade___' + (r + 1)).val(parseInt(datasetResult.values[r].QUANTITY));
+
+							var preco = parseFloat(datasetResult.values[r].PREQ_PRICE);
+							$('#preco___' + (r + 1)).maskMoney('mask', preco);
+
+							var total = parseFloat(datasetResult.values[r].VALUE_ITEM);
+							valorTotal += parseFloat(total);
+
+							if (maskDecimal == ",") {
+								total = total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&.');
+								var inteiro = total.substr(0, total.length - 3);
+								var decimal = total.substr(total.length - 2);
+								total = inteiro + "," + decimal;
+							} else
+								total = total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+
+							$('#total___' + (r + 1)).val(total);
+							$('#dtRemessa___' + (r + 1)).val(trataDataSAP(datasetResult.values[r].DELIV_DATE));
+							$('#observacaoMaterial___' + (r + 1)).val(datasetResult.values[r].ITEM_TEXT_LINE);
+
+						}
+
+						$('#moeda').find('option').each(function (value, text) {
+							if ($(this).text() == datasetResult.values[0].CURRENCY) {
+								$('#moeda').val($(this).val());
+							}
+						});
+
+						if (maskDecimal == ",") {
+							valorTotal = valorTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&.');
+							var inteiro = valorTotal.substr(0, valorTotal.length - 3);
+							var decimal = valorTotal.substr(valorTotal.length - 2);
+							valorTotal = inteiro + "," + decimal;
+						} else
+							valorTotal = valorTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+
+						$('#totalRC').val(valorTotal);
+						$('#requisicaoSAP').val(numReqCompra);
+						if (datasetResult.values[0].PREQ_DATE != "") {
+							$('#dataRequisicao').val(trataDataSAP(datasetResult.values[0].PREQ_DATE));
+						}
+
+						$('#obsRC').val(datasetResult.values[0].CAB_TEXT);
+
+						if ($('select[name="acaoRequisicao"]').val() == "cancelar" || $('select[name="acaoRequisicao"]').val() == "visualizar") {
+							var texts = $('.areaRequisicao').find('input, textarea, select');
+							texts.each(function (index, value) {
+								$(this).attr("readonly", "true");
+							});
+
+							var as = $('.areaRequisicao').find('a');
+							as.each(function () {
+								$(this).removeAttr('href');
+								$(this).removeAttr('onclick');
+							});
+						}
+					} else {
+						alert('i18n.translate("alertaRequisicaoBloqueada")');
+					}
+				}
+			}
+
+			document.body.style.cursor = "default";
+			if ($("#tipoCompra").val() == "") {
+				$(".pesquisarCentroCusto").hide();
+				$(".tabelaMateriais").hide();
+				$(".codigoServico").hide();
+				$(".ordemInterna").hide();
+			}
+			if ($("#tipoCompra").val() != "" && $('#ahoraTipoDespesa').val() == "1") {
+				$('#tipoDespesa').val('F');
+
+				$('.ordemInterna').show();
+				$('.codigoServico').hide();
+
+				$('.pesquisarCentroCusto').show();
+				$('.tipoCompra').show();
+				$('.tabelaMateriais').show();
+			} else {
+				var vl_cod_servico_ahora = $('#codigoServico').val();
+				var vl_cod_vendas_brasil = $('#codigoDocVendas').val();
+				
+				if (vl_cod_servico_ahora != "" || vl_cod_vendas_brasil != "") {
+					$('#tipoDespesa').val('Z');
+
+					$('.ordemInterna').hide();
+					
+					if (centroLucro) {
+						$('.codigoServico.brasil').show();
+						$('.codigoServico.ahora').hide();
+						$(".pesquisarCentroCusto").hide()
+					} else{
+						$('.codigoServico.ahora').show();
+						$('.codigoServico.brasil').hide();
+						$(".pesquisarCentroCusto").show()
+					}
+					
+					$('.tipoCompra').show();
+					$('.tabelaMateriais').show();
+				} else {
+					$('#tipoDespesa').val('K');
+
+					$('.ordemInterna').hide();
+					$('.codigoServico').hide();
+
+					$('.pesquisarCentroCusto').show();
+					$('.tipoCompra').show();
+					$('.tabelaMateriais').show();
+				}
+			}
+		});
+
+		function trataDataSAP(data) {
+			var year = data.substr(0, 4);
+			var month = data.substr(5, 2);
+			var day = data.substr(8, 2);
+
+			return day + "/" + month + "/" + year;
+		}
+
+		$('select[name="tipoDespesa"]').change(function () {
+			var tipo = $(this).val();
+			var centroLucro = verificaCentroLucroPais($("input[name='accSolicitante']").val());
+			
+			switch (tipo) {
+				// Capex
+				case 'F': {
+						$('.ordemInterna').show();
+						$('.campoTituloIdentificador').show();
+						$('.codigoServico.ahora').show();
+						$('.codigoServico.brasil').hide();
+						$('.pesquisarCentroCusto').show();
+						$('.tipoCompra').show();
+						$('.tabelaMateriais').show();
+						
+						if (centroLucro) {
+							$('#centroCusto').parent().find('a').hide()
+							$('.comCopia').hide();
+							$('#ahoraTipoDespesa').val('F');
+						}else{
+							$('#ahoraTipoDespesa').val('1');
+						}
+						break;
+					}
+				// Opex
+				case 'K':
+					{
+						$('.ordemInterna').hide();
+						$('.codigoServico').hide();
+						$('.campoTituloIdentificador').show();
+
+						$('.pesquisarCentroCusto').show();
+						$('.tipoCompra').show();
+						$('.tabelaMateriais').show();
+
+						
+						if (centroLucro) {
+							$('#centroCusto').parent().find('a').show()
+							$('.comCopia').hide();
+							$('.codigoServico.ahora').hide();
+							$('#ahoraTipoDespesa').val('K');
+						}else{
+							$('#ahoraTipoDespesa').val('2');
+						}
+						break;
+					}
+				// Opex a Servicos
+				case 'Z': {
+						$('.ordemInterna').hide();
+						$('.campoTituloIdentificador').show();
+						if(centroLucro){
+							$('.pesquisarCentroCusto').hide();
+							$(".codigoServico.ahora").hide();
+						}else{
+							$('.pesquisarCentroCusto').show();
+						}
+						
+						$('.pesquisarCentroCusto').hide();
+						
+						$('.tipoCompra').show();
+						$('.tabelaMateriais').show();
+						
+						if (centroLucro) {
+							$('#centroCusto').parent().find('a').show();
+							$('.comCopia').hide();
+							$('.codigoServico.brasil').show();
+							$(".codigoServico.ahora").hide();
+							$('#ahoraTipoDespesa').val('Z');
+						}else{
+							$('.codigoServico.ahora').show();
+							$('#ahoraTipoDespesa').val('2');
+						}
+						break;
+					}
+				default:
+					{
+						$('.ordemInterna').hide();
+						$('.codigoServico').hide();
+						$('.campoTituloIdentificador').hide();
+
+						$('.pesquisarCentroCusto').hide();
+						$('.tipoCompra').hide();
+						$('.codigoFornecedor').hide();
+						$('.tabelaMateriais').hide();
+						if (centroLucro) {
+							$('#centroCusto').parent().find('a').show()
+							$('.comCopia').show();
+							$(".codigoServico.ahora").hide();
+						}
+						break;
+					}
+			}
+			if ($("#tipoCompra").val()=="") {
+				$(".pesquisarCentroCusto").hide();
+				$(".tabelaMateriais").hide();
+				$(".codigoServico").hide();
+				$(".ordemInterna").hide();
+			}
+			if ($("#tipoCompra").val() != "" && $("#tipoDespesa").val() == "Z") {
+				if (centroLucro) {
+					$(".pesquisarCentroCusto").hide();
+					$('.tabelaMateriais').show();
+					$('.ordemInterna').hide();
+					$('.codigoServico.brasil').show();
+					$(".codigoServico.ahora").hide();
+				}else{
+					$('.codigoServico.ahora').show();
+				}
+			}
+
+			if ($("#tipoCompra").val() != "" && $("#tipoDespesa").val() == "F") {
+				if(centroLucro){
+					$('.pesquisarCentroCusto').show();
+					$('.tabelaMateriais').show();
+					$(".codigoServico").hide();
+				}
+				$(".ordemInterna").show();
+			}
+			if ($("#tipoCompra").val() != "" && $("#tipoDespesa").val() == "K") {
+				$('.pesquisarCentroCusto').show();
+				$('.tabelaMateriais').show();
+				$('.ordemInterna').hide();
+				$('.codigoServico.ahora').show();
+				$('.codigoServico.brasil').hide();
+			}
+		});
+
+		function reconfigurarCampos() {
+			var acao = $("#acaoRequisicao").val();
+			
+			var tipoCompra = $('#tipoCompra').val();
+
+			if (tipoCompra != "PRORROG") {
+				$('#dataProrrogacao').hide();
+				$('#tabelaProrrogacao').hide();
+				$("#materiais").show();
+				//$("#totalEmoeda").show();
+				$('#dataRequisicaoSap').show();
+				$('#fgRequisicaoSap').show();
+			} else {
+				$('#dataProrrogacao').show();
+				$('#tabelaProrrogacao').show();
+				$("#materiais").hide();
+				//$("#totalEmoeda").hide();
+				$('#dataRequisicaoSap').hide();
+				$('#fgRequisicaoSap').hide();
+			}
+			
+			if (tipoCompra == "PRORROG" ||  tipoCompra == "CATALOGO" || tipoCompra == "RFI") {
+				
+				$("#totalEmoeda").hide();
+			}else{
+				$("#totalEmoeda").show();
+			}
+
+			var centroLucro = verificaCentroLucroPais($("input[name='accSolicitante']").val());
+
+			if(centroLucro){
+				$('.codigoServico.brasil').show();
+				$('.codigoServico.ahora').hide();
+			}else{
+				$('.codigoServico.brasil').hide();
+				$('.codigoServico.ahora').show();
+				console.log($('.codigoServico'));
+			}
+
+			bloqueiaCampo();
+			if (flgAtTriarRequisicao == true){
+				$('#fgRequisicaoSap').show();
+			} else{
+				$('#fgRequisicaoSap').hide();
+			}
+		}
+
+		function bloqueiaCampo() {
+			var tipoCompra = $('#tipoCompra').val();
+			if (tipoCompra == "RFI" || tipoCompra == "CATALOGO") {
+				$('#fgRequisicaoSap').hide();
+// 				$('#moeda').attr("disabled", "disabled");
+				$('#totalRC').attr("disabled", "disabled");
+				$('#totalRC').val("");
+				$('.bloqueiaCampos').attr("disabled", "disabled");
+
+				for (var i = 1; i <= $('.listMaterial').length; i++) {
+					$("#quantidade___" + i).attr("disabled", "disabled");
+					$("#preco___" + i).attr("disabled", "disabled");
+					$("#total___" + i).attr("disabled", "disabled");
+				}
+			} else {
+				$('#fgRequisicaoSap').hide();
+				$('#moeda').removeAttr("disabled");
+				$('#totalRC').removeAttr("disabled");
+
+				for (var i = 1; i <= $('.listMaterial').length; i++) {
+					$("#quantidade___" + i).removeAttr("disabled");
+					$("#preco___" + i).removeAttr("disabled");
+					$("#total___" + i).removeAttr("disabled");
+					$('.bloqueiaCampos').removeAttr("disabled", "disabled");
+				}
+
+			}
+		}
+
+		function openZoomNumeroContrato(object) {
+			var i18n_translate_numeroContrato = 'i18n.translate("numeroContrato")';
+			var i18n_translate_dataInicio = 'i18n.translate("dataInicio")';
+			var i18n_translate_dataFim = 'i18n.translate("dataFim")';
+			var i18n_translate_fornecedor = 'i18n.translate("fornecedor")';
+
+			var customZoom = new CustomZoom();
+			customZoom.setLanguage('pt_BR');
+			customZoom.setWidth(600);
+
+			customZoom.addDataField('CONTRACT_NUMBER', i18n_translate_numeroContrato);
+
+			customZoom.addResultField('CONTRACT_NUMBER', i18n_translate_numeroContrato);
+			customZoom.addResultField('VENDOR', i18n_translate_fornecedor);
+			customZoom.addResultField('VPER_START', i18n_translate_dataInicio);
+			customZoom.addResultField('VPER_END', i18n_translate_dataFim);
+
+			customZoom.addCustomFilterDataset('acc_solic', $("[name=accSolicitante]").val());
+
+			customZoom.setCardDatasetId("dsZoomBuscarContratoDeVendas");
+
+			customZoom.setType("TypeExibirContrato");
+			customZoom.setTitle("Pesquisar Contrato de Venda");
+
+			customZoom.setWidth(600);
+
+			customZoom.setLanguage('pt_BR');
+
+			customZoom.open();
+
+		}
+
+		/* function openZoomRcParaCopia() {
+			var constraint = "solicitante," + $('#usuarioFluig').val();
+			zoomFormulario('lista_RC_por_usuario', 'REQUISICAO,Requisi\u00e7\u00e3o SAP', 'ID_FORM,REQUISICAO', constraint, 'TypeRcParaCopia', 'Requisição de Compra');
+		} */
+		
+		function zoomFormulario(dataset, campos, resultFields, constraints, type, titulo) {
+			var filter = constraints.split(',');
+
+			if (filter[1] == '') {
+				window.open("/webdesk/zoom.jsp?datasetId=" + dataset + "&dataFields=" + campos + "&resultFields=" + resultFields + "&filterValues=&type=" + type + "&title=" + titulo, "zoom", "status , scrollbars=no ,width=600, height=350 , top=0 , left=0");
+			} else {
+				window.open("/webdesk/zoom.jsp?datasetId=" + dataset + "&dataFields=" + campos + "&resultFields=" + resultFields + "&filterValues=" + constraints + "&type=" + type + "&title=" + titulo, "zoom", "status , scrollbars=no ,width=600, height=350 , top=0 , left=0");
+			}
+		}
+
+		function openZoomCentroCusto() {
+
+			var customZoom = new CustomZoom();
+			customZoom.setLanguage('pt_BR');
+			customZoom.setWidth(600);
+
+			var i18n_translate_codigo = 'i18n.translate("codigo")';
+			var i18n_translate_centroCusto = 'i18n.translate("centroCusto")';
+			var i18n_translate_codigoAreaContabil = 'i18n.translate("codigoAreaContabilidade")';
+			var i18n_translate_codigoCompanyCode = 'i18n.translate("codigoCompanyCode")';
+
+			customZoom.addDataField('CODE', i18n_translate_codigo);
+			customZoom.addDataField('DESCRIPTION', i18n_translate_centroCusto);
+
+			customZoom.addResultField('CODE', i18n_translate_codigo);
+			customZoom.addResultField('DESCRIPTION', i18n_translate_centroCusto);
+			customZoom.addResultField('CONTROLLINGAREACODE', i18n_translate_codigoAreaContabil);
+			customZoom.addResultField('COMPANYCODE', i18n_translate_codigoCompanyCode);
+
+			customZoom.addCustomFilterDataset('COMPANYCODE', $("[name=companyCode]").val());
+			customZoom.addCustomFilterDataset('CONTROLLINGAREACODE', $("[name=accSolicitante]").val());
+			
+			customZoom.setCardDatasetId("Atento_DM_CentroCusto");
+			customZoom.setType("TypeCentroCusto");
+			customZoom.setTitle("Centro de Custo");
+			customZoom.open();
+		}
+
+		function openZoomOrdemInterna() {
+			var customZoom = new CustomZoom();
+			customZoom.setLanguage('pt_BR');
+			customZoom.setWidth(600);
+
+			var i18n_translate_codigo = 'i18n.translate("codigo")';
+			var i18n_translate_ordemInterna = 'i18n.translate("ordemInterna")';
+			var i18n_translate_codigoCompanyCode = 'i18n.translate("codigoCompanyCode")';
+
+			customZoom.addDataField('CODE', i18n_translate_codigo);
+			customZoom.addDataField('DESCRIPTION', i18n_translate_ordemInterna);
+
+			customZoom.addResultField('CODE', i18n_translate_codigo);
+			customZoom.addResultField('DESCRIPTION', i18n_translate_ordemInterna);
+			customZoom.addResultField('COMPANYCODE', i18n_translate_codigoCompanyCode);
+			customZoom.addResultField('RESPONSIBLECOSTCENTER', 'Responsável');
+
+			customZoom.addCustomFilterDataset('COMPANYCODE', $("[name=companyCode]").val());
+
+			var centroLucro = verificaCentroLucroPais($("input[name='accSolicitante']").val());
+			if(centroLucro){
+				customZoom.addCustomFilterDataset('SALESDOCUMENTTYPE', "0700");
+			} else{
+				customZoom.addCustomFilterDataset('SALESDOCUMENTTYPE', "ZINV");
+			}
+			
+			customZoom.setCardDatasetId("atento_DM_OrdemInterna");
+			customZoom.setType("TypeOrdemInterna");
+			customZoom.setTitle("Ordem Interna");
+
+			customZoom.open();
+		}
+
+		function openZoomCodigoServico() {
+			var centroLucro = verificaCentroLucroPais($("input[name='accSolicitante']").val());
+
+			var filtro = "";
+		
+			var customZoom = new CustomZoom();
+			customZoom.setLanguage('pt_BR');
+			customZoom.setWidth(600);
+
+			var i18n_translate_codigo = 'i18n.translate("codigo")';
+			var i18n_translate_codigoServico = 'i18n.translate("codigoServico")';
+			var i18n_translate_codigoCompanyCode = 'i18n.translate("codigoCompanyCode")';
+			
+			if (centroLucro) {			
+				customZoom.addDataField('CODE', 'Cod Doc Vendas');
+				customZoom.addDataField('CUSTOMERCODE', 'Cod Cliente');
+				customZoom.addDataField('OPERATINGSITE', 'Site Operação');
+				customZoom.addDataField('MAINPRODUCT', 'Produto Principal');
+				customZoom.addDataField('PROFITCENTER', 'Centro de Lucro');			
+				
+				customZoom.addResultField('CODE', 'Cod Doc Vendas');
+				customZoom.addResultField('CUSTOMERCODE', 'Cod Cliente');
+				customZoom.addResultField('OPERATINGSITE', 'Site Operação');
+				customZoom.addResultField('MAINPRODUCT', 'Produto Principal');
+				customZoom.addResultField('PROFITCENTER', 'Centro de Lucro');			
+				
+				customZoom.addCustomFilterDataset('CONTROLLINGAREACODE', $("[name=accSolicitante]").val());
+				customZoom.addCustomFilterDataset('EXPIRATION', "A");
+
+				customZoom.setCardDatasetId('atento_DM_ServAGRUP');
+				
+			} else {
+				
+				customZoom.addDataField('CODE', i18n_translate_codigo );
+				customZoom.addDataField('DESCRIPTION', i18n_translate_codigoServico );
+				
+				customZoom.addResultField('CODE', i18n_translate_codigo );
+				customZoom.addResultField('DESCRIPTION', i18n_translate_codigoServico );
+				customZoom.addResultField('COMPANYCODE', i18n_translate_codigoCompanyCode );
+				
+				customZoom.addCustomFilterDataset('COMPANYCODE', $("[name=companyCode]").val());
+				customZoom.addCustomFilterDataset('SALESDOCUMENTTYPE', "ZCON");
+				
+				customZoom.setCardDatasetId("atento_DM_OrdemInterna");
+			}
+
+			customZoom.setType("TypeCodigoServico");
+			customZoom.setTitle("Código do Serviço");
+
+			customZoom.open();
+		}
+
+		function openZoomCodigoFornecedor() {
+			var filtro = "";
+			//if($('#fornecedor').val() != "")
+			//filtro = "&filterValues=NAME,"+$('#fornecedor').val();
+
+			var i18n_translate_codigo = 'i18n.translate("codigo")';
+			var i18n_translate_fornecedor = 'i18n.translate("fornecedor")';
+			var i18n_translate_codigoCompanyCode = 'i18n.translate("codigoCompanyCode")';
+
+			var i18n_translate_CNPJ = 'i18n.translate("cnpjFornecedor")';
+			var i18n_translate_EMAIL = 'i18n.translate("emailFornecedor")';
+			var i18n_translate_ENDERECO = 'i18n.translate("enderecoFornecedor")';
+			var i18n_translate_NUMERO = 'i18n.translate("numeroFornecedor")';
+			var i18n_translate_CEP = 'i18n.translate("cepFornecedor")';
+			var i18n_translate_CIDADE = 'i18n.translate("cidadeFornecedor")';
+			var i18n_translate_PAIS = 'i18n.translate("paisFornecedor")';
+
+			var customZoom = new CustomZoom();
+			customZoom.setLanguage('pt_BR');
+			customZoom.setWidth(1200);
+
+			customZoom.addDataField('CODE', i18n_translate_codigo);
+			customZoom.addDataField('NAME', i18n_translate_fornecedor);
+
+			customZoom.addResultField('CODE', i18n_translate_codigo);
+			customZoom.addResultField('NAME', i18n_translate_fornecedor);
+			customZoom.addResultField('CNPJ', i18n_translate_CNPJ);
+			customZoom.addResultField('EMAILADDRESS', i18n_translate_EMAIL);
+			customZoom.addResultField('ADDRESS', i18n_translate_ENDERECO);
+			customZoom.addResultField('HOUSENUMBER', i18n_translate_NUMERO);
+			customZoom.addResultField('POSTALCODE', i18n_translate_CEP);
+			customZoom.addResultField('CITY', i18n_translate_CIDADE);
+			customZoom.addResultField('COUNTRYKEY', i18n_translate_PAIS);
+			customZoom.addResultField('COMPANYCODE', i18n_translate_codigoCompanyCode);
+
+			customZoom.addCustomFilterDataset('COMPANYCODE', $("[name=companyCode]").val());
+			customZoom.addCustomFilterDataset('ACC', $("[name=accSolicitante]").val());
+
+			customZoom.setCardDatasetId("atento_DM_Fornecedores");
+			customZoom.setType("TypeCodigoFornecedor");
+			customZoom.setTitle("Código do Fornecedor");
+
+			customZoom.open();
+		}
+
+
+		function openZoomPlanta(object) {
+			var index = getIndexGrid(object);
+			$("#hiddenIndex").val(index);
+
+
+			var customZoom = new CustomZoom();
+			customZoom.setLanguage('pt_BR');
+			customZoom.setWidth(600);
+			var i18n_translate_codigo = 'i18n.translate("codigo")';
+			var i18n_translate_planta = 'i18n.translate("planta")';
+			var i18n_translate_codigoCompanyCode = 'i18n.translate("codigoCompanyCode")';
+
+			customZoom.addDataField('CODE', i18n_translate_codigo);
+			customZoom.addDataField('NAME', i18n_translate_planta);
+
+			customZoom.addResultField('CODE', i18n_translate_codigo);
+			customZoom.addResultField('NAME', i18n_translate_planta);
+			customZoom.addResultField('COMPANYCODE', i18n_translate_codigoCompanyCode);
+
+			customZoom.addCustomFilterDataset('COMPANYCODE', $("[name=companyCode]").val());
+
+			customZoom.setCardDatasetId("atento_DM_Plantas");
+			customZoom.setType("TypePlanta");
+			customZoom.setTitle("Planta");
+
+
+
+			customZoom.open();
+		}
+
+		function openZoomMaterial(object) {
+			
+			var c1 = DatasetFactory.createConstraint("processo", "Requisicao_Compra_com_GP", "Requisicao_Compra_com_GP", ConstraintType.MUST);
+			var dsFiltro = DatasetFactory.getDataset("dsBuscarFiltroMateriais", null, [c1], null);
+			
+			var arrayFiltro = "";
+			var sap = "Sap_Global";
+
+			var index = getIndexGrid(object);
+			$("#hiddenIndex").val(index);
+
+			if ($('#cdPlanta___' + index).val() != "") {
+				var centroLucro = verificaCentroLucroPais($("input[name='accSolicitante']").val());
+				var i18n_translate_codigo = 'i18n.translate("codigo")';
+				var i18n_translate_material = 'i18n.translate("material")';
+				var i18n_translate_codPlanta = 'i18n.translate("codPlanta")';
+				var i18n_translate_planta = 'i18n.translate("planta")';
+				var i18n_translate_contaContabil = 'i18n.translate("contaContabil")'
+
+				var customZoom = new CustomZoom();
+				customZoom.setLanguage('pt_BR');
+				customZoom.setWidth(1000);
+
+				customZoom.addDataField('CODE', i18n_translate_codigo);
+				customZoom.addDataField('DESCRIPTION', i18n_translate_material);
+
+				customZoom.addResultField('CODE', i18n_translate_codigo);
+				customZoom.addResultField('DESCRIPTION', i18n_translate_material);
+				customZoom.addResultField('PLANT', i18n_translate_codPlanta);
+				customZoom.addResultField('PLANTNAME', i18n_translate_planta);
+				customZoom.addResultField('DEBITACCOUNTNUMBER', i18n_translate_contaContabil);
+
+				if (centroLucro) {
+					customZoom.addCustomFilterDataset('MATERIALGROUP', 'Grupo de Material');
+					//customZoom.addCustomFilterDataset('DESCRIPTION', $('#material___' + index).val());
+					sap = "Sap_Brasil";
+				}
+				
+				for(var i = 0; i < dsFiltro.values.length; i ++){
+					arrayFiltro += (i == 0) ? dsFiltro.values[i][sap] : ";" + dsFiltro.values[i][sap];
+				}
+				
+				customZoom.addCustomFilterDataset('PLANT', $('#cdPlanta___' + index).val());
+				customZoom.addCustomFilterDataset('CONTROLLINGAREACODE', $("[name=accSolicitante]").val());
+				customZoom.addCustomFilterDataset('filtro_material', arrayFiltro);
+
+				customZoom.setCardDatasetId("atento_DM_Materiais");
+				customZoom.setType("TypeMaterial");
+				customZoom.setTitle("Material");
+
+
+
+				customZoom.open();
+			}
+			else
+				alert('i18n.translate("preenchaMaterial")');
+
+		}
+
+		function setSelectedZoomItem(selectedItem) {
+			try {
+				var index = document.getElementById("hiddenIndex").value;
+				var centroLucro = verificaCentroLucroPais($("input[name='accSolicitante']").val());
+
+				switch (selectedItem.type) {
+
+					
+
+					case "TypeCentroCusto":
+						$('input[name="codCentroCusto"]').val(selectedItem["CODE"]);
+						$('input[name="centroCusto"]').val(selectedItem["CODE"] + " - " + selectedItem["DESCRIPTION"]);
+						$('input[name="accCentroCusto"]').val(selectedItem["CONTROLLINGAREACODE"]);
+
+						break;
+					case "TypeOrdemInterna":
+						$('input[name="codOrdemInterna"]').val(selectedItem["CODE"]);
+						$('input[name="ordemInterna"]').val(selectedItem["CODE"] + " - " + selectedItem["DESCRIPTION"]);
+						
+						
+						if ($('#tipoDespesa').val() == "F") {
+							$('input[name="codCentroCusto"]').val(selectedItem["RESPONSIBLECOSTCENTER"]);
+							$('input[name="centroCusto"]').val(selectedItem["RESPONSIBLECOSTCENTER"]);
+
+							var c1 = DatasetFactory.createConstraint('CODE', selectedItem["RESPONSIBLECOSTCENTER"], selectedItem["RESPONSIBLECOSTCENTER"], ConstraintType.MUST);
+							var c2 = DatasetFactory.createConstraint('CONTROLLINGAREACODE', $("[name=accSolicitante]").val(), $("[name=accSolicitante]").val(), ConstraintType.MUST);
+							var constraints = new Array(c1, c2);
+							
+							var datasetCentroCusto = DatasetFactory.getDataset("Atento_DM_CentroCusto", null, constraints, null);
+							$('input[name="accCentroCusto"]').val(datasetCentroCusto.values[0].CONTROLLINGAREACODE);
+						}
+
+						break;
+					case "TypeCodigoServico":
+						if (centroLucro) {
+							$('input[name="codigoDocVendas"]').val(selectedItem["CODE"]);
+							$('input[name="codigoCliente"]').val(selectedItem["CUSTOMERCODE"]);
+							$('input[name="siteOperacao"]').val(selectedItem["OPERATINGSITE"]);
+							$('input[name="produtoPrincipal"]').val(selectedItem["MAINPRODUCT"]);
+							$('input[name="centroLucro"]').val(selectedItem["PROFITCENTER"]);
+						} else {
+							$('input[name="codigoServico"]').val(selectedItem["CODE"]);
+							$('input[name="servico"]').val(selectedItem["CODE"] + " - " + selectedItem["DESCRIPTION"]);
+						}
+
+						break;
+					case "TypeCodigoFornecedor":
+						$('input[name="codigoFornecedor"]').val(selectedItem["CODE"]);
+						$('input[name="fornecedor"]').val(selectedItem["CODE"] + " - " + selectedItem["NAME"]);
+
+						break;
+					case "TypePlanta":
+						$('input[name="planta___' + index + '"]').val(selectedItem["CODE"] + " - " + selectedItem["NAME"]);
+						$('input[name="cdPlanta___' + index + '"]').val(selectedItem["CODE"]);
+
+						break;
+					case "TypeExibirContrato":
+
+						console.log(selectedItem);
+
+						$('input#txtNumeroContrato').val(selectedItem["CONTRACT_NUMBER"]);
+						$('input#txtFornecedorProrrogacao').val(selectedItem["VENDOR"]);
+						$('input#txtDataInicio').val(selectedItem["VPER_START"]);
+						$('input#txtDataFim').val(selectedItem["VPER_END"]);
+
+						$('input.numeroContrato').val(selectedItem["CONTRACT_NUMBER"]);
+						$('input.fornecedorProrrogacao').val(selectedItem["VENDOR"]);
+						$('input.dataInicio').val(selectedItem["VPER_START"]);
+						$('input.dataFim').val(selectedItem["VPER_END"]);
+
+						break;
+					case "TypeMaterial":
+						$('input[name="material___' + index + '"]').val(parseInt(selectedItem["CODE"]) + " - " + selectedItem["DESCRIPTION"]);
+						$('input[name="cdMaterial___' + index + '"]').val(selectedItem["CODE"]);
+						$('input[name="grupoMaterial___' + index + '"]').val(selectedItem["MATERIALGROUP"]);
+						$('input[name="planta___' + index + '"]').val(selectedItem["PLANT"] + " - " + selectedItem["PLANTNAME"]);
+						$('input[name="cdPlanta___' + index + '"]').val(selectedItem["PLANT"]);
+						$('input[name="contaContabil___' + index + '"]').val(selectedItem["DEBITACCOUNTNUMBER"]);
+
+						break;
+					default:
+						break;
+				}
+			} catch (e) {
+				alert(e);
+			}
+			
+			if(selectedItem.inputId == "descRcParaCopia"){
+				$('input[name="rcParaCopia"]').val(selectedItem["ID_FORM"]);
+			}
+			
+	
+		}
+
+		function getIndexGrid(buttonSelected) {
+			var element = $(buttonSelected).parent().parent().parent().find('input[name^="planta___"]');
+			var indexInit = element.prop('name').indexOf('__') + 3;
+			var size = element.prop('name').length;
+			var number = element.prop('name').substring(indexInit, size);
+			return number;
+		}
+
+		function calcularRC() {
+			var TotalFilhos = parseInt($('input[name^="planta___"]').length);
+
+			var valorTotal = 0;
+
+			if (TotalFilhos == 0) {
+				$('input[name="totalRC"]').val('');
+				return;
+			}
+
+			var objPrecos = $('input[name^="preco___"]');
+			$(objPrecos).each(function () {
+				var valor;
+				var qtd = parseFloat($(this).parent().parent().parent().find('input[name^="quantidade___"]').val() || 0);
+
+				if (maskDecimal == ",")
+					valor = parseFloat($(this).val().replace(/\./g, "").replace(",", ".") || 0);
+				else
+					valor = parseFloat($(this).val().replace(/\,/g, "") || 0);
+
+				valor = valor.toFixed(2);
+
+				var totalLinha = qtd * valor;
+				valorTotal += totalLinha;
+
+				if (maskDecimal == ",") {
+					totalLinha = totalLinha.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&.');
+					var inteiro = totalLinha.substr(0, totalLinha.length - 3);
+					var decimal = totalLinha.substr(totalLinha.length - 2);
+					totalLinha = inteiro + "," + decimal;
+				} else
+					totalLinha = totalLinha.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+
+				$(this).parent().parent().parent().find('input[name^="total___"]').val(totalLinha);
+			});
+
+			if (maskDecimal == ",") {
+				valorTotal = valorTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&.');
+				var inteiro = valorTotal.substr(0, valorTotal.length - 3);
+				var decimal = valorTotal.substr(valorTotal.length - 2);
+				valorTotal = inteiro + "," + decimal;
+			} else
+				valorTotal = valorTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+
+			$('input[name="totalRC"]').val(valorTotal);
+
+		}
+
+		var executou = 0;
+
+		function setAprovers(group, matriculaUsuario, nomeUsuario, index) {
+			//alert(index);
+
+			$(window).load(function () {
+				setInterval("aprovadores('" + group + "', '" + matriculaUsuario + "', '" + nomeUsuario + "', '" + index + "')", 1000);
+			});
+
+		}
+
+		var valorFinal = "";
+
+		function aprovadores(group, matriculaUsuario, nomeUsuario, index) {
+			//alert(group+","+matriculaUsuario+","+nomeUsuario+","+index);
+			if (executou < 4) {
+				$('input[name="grupoAprovador___' + index + '"]').val(group);
+
+				if (isMobile == "true") {
+					$('input[name="aprovador___' + index + '"]').val(matriculaUsuario + ";" + group + ";" + nomeUsuario + ";sim");
+				} else {
+					$('input[name="aprovador___' + index + '"]').val(matriculaUsuario);
+				}
+
+				$('input[name="nomeAprovador___' + index + '"]').val(nomeUsuario);
+
+				valorFinal = matriculaUsuario + ";" + group + ";" + nomeUsuario;
+
+				executou++;
+			}
+		}
+
+		function setReceivers(group, matriculaUsuario, nomeUsuario, index) {
+			//alert(index);
+
+			$(window).load(
+				function () {
+					setInterval("recebedores('" + group + "', '"
+						+ matriculaUsuario + "', '" + nomeUsuario
+						+ "', '" + index + "')", 1000);
+				});
+
+		}
+
+		function recebedores(group, matriculaUsuario, nomeUsuario, index) {
+			//alert(group+","+matriculaUsuario+","+nomeUsuario+","+index);
+			if (executou < 4) {
+				$('input[name="grupoRecebedor___' + index + '"]').val(group);
+
+				$('input[name="nomeRecebedor___' + index + '"]').val(nomeUsuario);
+
+				valorFinal = matriculaUsuario + ";" + group + ";" + nomeUsuario;
+
+				executou++;
+			}
+		}
+
+		function setAprove(value) {
+			//Colocar if de mobile
+
+			$('.justificativa').hide();
+			$('#justificativa').val("");
+
+			if (isMobile == "true") {
+
+				var linha = $(value).attr('name').split('___')[1];
+
+				$('input[name="aprovador___' + linha + '"]').val(valorFinal + ";" + $(value).val());
+
+				console.log(valorFinal + ";" + $(value).val());
+				console.log($('input[name="aprovador___' + linha + '"]').val());
+
+			}
+		}
+
+		function setRefusal(value) {
+			$('.justificativa').show();
+			$("#justificativa").focus();
+			if (isMobile == "true") {
+
+				var linha = $(value).attr('name').split('___')[1];
+
+				$('input[name="aprovador___' + linha + '"]').val(
+					valorFinal + ";" + $(value).val());
+
+				console.log(valorFinal + ";" + $(value).val());
+				console.log($('input[name="aprovador___' + linha + '"]').val());
+
+			}
+		}
+
+		function setConfirmation() {
+			$('#confirmaRecebimento').val($('input[name=optConfirmarRecebimento]:checked').val());
+		}
+
+		function numbersonly(myfield, e, dec) {
+			var key;
+			var keychar;
+
+			if (window.event)
+				key = window.event.keyCode;
+			else if (e)
+				key = e.which;
+			else
+				return true;
+
+			keychar = String.fromCharCode(key);
+
+			// control keys
+			if ((key == null) || (key == 0) || (key == 8) ||
+				(key == 9) || (key == 13) || (key == 27))
+				return true;
+
+			// numbers
+			else if ((("0123456789").indexOf(keychar) > -1))
+				return true;
+
+			// decimal point jump
+			else if (dec && (keychar == ".")) {
+				myfield.form.elements[dec].focus();
+				return false;
+			}
+			else
+				return false;
+		}
+
+		function removerLinha(obj) {
+			fnWdkRemoveChild(obj);
+			calcularRC();
+		}
+
+		var fcnDuplicaLinha = (function (obj) {
+			var row = wdkAddChild('rc_atento');
+			criarMascara();
+			var indice = obj.name.split("___");
+			$('#cdPlanta___' + row).val($('#cdPlanta___' + indice[1]).val());
+			$('#planta___' + row).val($('#planta___' + indice[1]).val());
+			$('#grupoMaterial___' + row).val($('#grupoMaterial___' + indice[1]).val());
+			$('#cdMaterial___' + row).val($('#cdMaterial___' + indice[1]).val());
+			$('#material___' + row).val($('#material___' + indice[1]).val());
+			$('#observacaoMaterial___' + row).val($('#observacaoMaterial___' + indice[1]).val());
+			$('#quantidade___' + row).val($('#quantidade___' + indice[1]).val());
+			$('#preco___' + row).val($('#preco___' + indice[1]).val());
+			$('#total___' + row).val($('#total___' + indice[1]).val());
+			$('#dtRemessa___' + row).val($('#dtRemessa___' + indice[1]).val());
+			calcularRC();
+		});
+
+
+
+
+
+
+		function criarMascara() {
+			var index = getIndexGrid($('#rc_atento').find('tbody').find('tr').last().find('input[name^="planta___"]'));
+			$('input[name="preco___' + index + '"]').maskMoney({ thousands: maskThousands, decimal: maskDecimal });
+			//$('input[name="total___'+index+'"]').maskMoney({thousands: maskThousands, decimal: maskDecimal});
+			$('input[name="dtRemessa___' + index + '"]').mask("99/99/9999");
+			$('input[name="dtRemessa___' + index + '"]').datepicker({
+				dateFormat: 'dd/mm/yy',
+				changeMonth: true,
+				changeYear: true
+			});
+		}
+
+		function resetMask() {
+			$('input[name^="preco___"]').each(function () {
+				$(this).maskMoney({ thousands: maskThousands, decimal: maskDecimal });
+			});
+
+			$('input[name^="dtRemessa___"]').each(function () {
+				$(this).mask("99/99/9999");
+				$(this).datepicker({
+					dateFormat: 'dd/mm/yy',
+					changeMonth: true,
+					changeYear: true
+				});
+			});
+
+
+		}
+
+		function desativarLinks() {
+			$('a').removeAttr('href');
+			$('a').removeAttr('onclick');
+		}
+
+		function deleteAprovals() {
+			var totalAproval = $('input[name^="grupoAprovador___"]').length;
+			var obj;
+
+			for (var i = 1; i <= totalAproval; i++) {
+				obj = document.getElementById('grupoAprovador___' + i);
+				fnWdkRemoveChild(obj);
+			}
+
+			$('input[name="justificativa"]').val('');
+		}
+
+		$('select[name="tipoCompra"').change(function () {
+			var centroLucro = verificaCentroLucroPais($("input[name='accSolicitante']").val());
+
+			if ($(this).val() == "REGULAR" || $(this).val() == "DELEGADA" || $(this).val() == "GERALCOND" || $(this).val() == "PONTUALCOND") {
+				$('.codigoFornecedor').show();
+			} else {
+				$('.codigoFornecedor').hide();
+			}
+			if ($("#atividade").val() == 118) {
+				$("#changedType").val("true");
+			}
+			if ($(this).val() != "") {
+				$(".pesquisarCentroCusto").show();
+				$(".tabelaMateriais").show();
+				if ($("#tipoDespesa").val() == "F") {
+					$(".ordemInterna").show();
+					if(centroLucro){
+						$(".codigoServico.ahora").hide();
+						
+						$(".codigoServico.brasil").hide();
+					}else{
+						$(".codigoServico.ahora").show();
+					}
+				}
+				if ($("#tipoDespesa").val() == "K") {
+					$('.ordemInterna').hide();
+					$('.codigoServico').hide();					
+				}
+				if ($("#tipoDespesa").val() == "Z") {
+					$('.ordemInterna').hide();
+					if(centroLucro){
+						$(".pesquisarCentroCusto").hide();
+						$(".codigoServico.ahora").hide();
+						$(".codigoServico.brasil").show();
+					}else{
+						$(".codigoServico.brasil").hide();
+						$(".codigoServico.ahora").show();
+					}
+				}
+			} else {
+				$(".pesquisarCentroCusto").hide();
+				$(".tabelaMateriais").hide();
+				$(".codigoServico ").hide();
+				$(".ordemInterna").hide();
+			}
+
+			recebeIdentificador();
+		});
+
+		function confereAnexos() {
+			var w = window.parent.document.body;
+			var lis = $(w).find("#ecm-workflowView-attachContainer").children("li");
+
+			$('input[name="qtdAnexos"]').val(lis.length);
+
+
+			if (parseInt($("#atividade").val()) >= 122) {
+				console.log("Atividade deve bloquear anexos");
+				$(w).find('#attachmentsTable').find('div.dropdown').remove();
+				$(w).find("#div-btn-attachment").find("button[data-attachments-remove-attach]").remove();
+
+
+			} else {
+				console.log("Anexos n foram bloqueados");
+			}
+		}
+
+		//#1832 - bloqueio de acesso ao console do desenvolvedor
+		window.addEventListener("keydown", keyListener, false);
+		function keyListener(e) {
+			//Bloqueia F12
+			if (e.keyCode == 123) {
+				e.returnValue = false;
+			}
+			//Bloqueia atalho ctrl+shift+i
+			if (e.ctrlKey && e.shiftKey && e.keyCode == 73) {
+				e.returnValue = false;
+			}
+		}
+		//Bloqueia botao direito do mouse
+		function disableselect(e) {
+			return false;
+		}
+
+		function reEnable() {
+			return true;
+		}
+
+		document.onselectstart = new Function("return false");
+		document.oncontextmenu = new Function("return false");
+
+		if (window.sidebar) {
+			document.onmousedown = disableselect;
+			document.onclick = reEnable;
+		}
+
+		function updateCompanyCodeCB() {
+			var companyCodeList = getCompanyCodeList();
+			if (companyCodeList != null) {
+				$('#companyCodeCB').find('option').remove();
+				for (var i = 0; i < companyCodeList.length; i++) {
+					var descricao = "";
+					if (companyCodeList[i].value != "") {
+						descricao = companyCodeList[i].value + " - " + companyCodeList[i].text;
+					}
+					$('#companyCodeCB').append($('<option>', {
+						value: companyCodeList[i].value,
+						text: descricao
+					}));
+				}
+			}
+		}
+
+		function getCompanyCode(code) {
+			console.log("Buscando para companyCode: " + code)
+			var constraints = null;
+			if (code == null) {
+				constraints = new Array();
+			} else {
+				var c1 = DatasetFactory.createConstraint('CODE', code, code, ConstraintType.MUST);
+				var constraints = new Array(c1);
+			}
+			var datasetCompanyCode = DatasetFactory.getDataset("Atento_DM_Empresa", null, constraints, null);
+			var companyCodeList = [{ value: "", text: "" }];
+			for (var i = 0; i < datasetCompanyCode.values.length; i++) {
+				var companyCodeObj = {};
+				companyCodeObj.value = datasetCompanyCode.values[i].CODE;
+				companyCodeObj.text = datasetCompanyCode.values[i].DESCRIPTION;
+				companyCodeList.push(companyCodeObj);
+			}
+			return companyCodeList;
+		}
+
+		function getCompanyCodeList() {
+			//Consulta país e acc do usuário
+			var fluigUser = $("[name='solicitante']").val();
+
+			var c1 = DatasetFactory.createConstraint('metadata#active', "true", "true", ConstraintType.MUST);
+			var c2 = DatasetFactory.createConstraint('codUsuarioFluig', fluigUser, fluigUser, ConstraintType.MUST);
+			var constraints = new Array(c1, c2);
+			var fields = new Array("corp", "cod_acc", "cod_pais");
+			var datasetPais = DatasetFactory.getDataset("atento_usuarios_Fluig_SAP", fields, constraints, null);
+
+			var codAccUser = null;
+			var codPaisUser = null;
+			var isCorp = false;
+			for (var i = 0; i < datasetPais.values.length; i++) {
+				codAccUser = datasetPais.values[i].cod_acc;
+				codPaisUser = datasetPais.values[i].cod_pais;
+
+				if (datasetPais.values[i].corp == "on") {
+					isCorp = true;
+				}
+
+				//Aqui realiza a pesquisa do filho se o país é corporate
+				var cp1 = DatasetFactory.createConstraint('documentid', datasetPais.values[i].documentid, datasetPais.values[i].documentid, ConstraintType.MUST);
+				var cp2 = DatasetFactory.createConstraint('metadata#active', "true", "true", ConstraintType.MUST);
+				var cp3 = DatasetFactory.createConstraint('tablename', "paises", "paises", ConstraintType.MUST);
+				var cp4 = DatasetFactory.createConstraint('txtCountry', "CORPORATE", "CORPORATE", ConstraintType.MUST);
+				var constraints = new Array(cp1, cp2, cp3, cp4);
+				var dsPaisCorp = DatasetFactory.getDataset("atento_usuarios_Fluig_SAP", null, constraints, null);
+				if (dsPaisCorp.values.length > 0) {
+					isCorp = true;
+				}
+
+			}
+			
+			//Fim da pesquisa
+			
+			var companyCodeList = [{ value: "", text: "" }];
+
+			if (isCorp) {
+				//companyCodeList = getCompanyCode(null);
+				
+				var c1 = DatasetFactory.createConstraint("metadata#active", true, true, ConstraintType.MUST);
+				var datasetPaiCC = DatasetFactory.getDataset("atento_Pais_Acc", null, [c1], null);
+				
+				var totalPaises = datasetPaiCC.values.length;
+				
+				for(var i = 0; i < totalPaises; i++){
+				    var documentIdPaiCC = datasetPaiCC.values[i]["documentid"];
+				    var versionPaiCC = datasetPaiCC.values[i]["metadata#version"];
+				
+				    var c1 = DatasetFactory.createConstraint('documentid', documentIdPaiCC, documentIdPaiCC, ConstraintType.MUST);
+				    var c2 = DatasetFactory.createConstraint('metadata#version', versionPaiCC, versionPaiCC, ConstraintType.MUST);
+				    var c3 = DatasetFactory.createConstraint('tablename', "tbCompanyCode", "tbCompanyCode", ConstraintType.MUST); 
+				
+					var constraints = new Array(c1, c2, c3);
+					var fields = new Array("companyCode", "companyCodeDesc");
+					var datasetCompanyCode = DatasetFactory.getDataset("atento_Pais_Acc", fields, constraints, null);
+					
+					var totalEmpresas = datasetCompanyCode.values.length;
+					
+					for(var y = 0; y < totalEmpresas; y ++){
+						var companyCodeObj = {};
+						companyCodeObj.value = datasetCompanyCode.values[y].companyCode;
+						companyCodeObj.text = datasetCompanyCode.values[y].companyCodeDesc;
+						companyCodeList.push(companyCodeObj);
+					}
+				}
+			}
+			else {
+				if (codAccUser == null || codPaisUser == null) {
+					console.log("codAccUser: " + codAccUser + ", codPaisUser:" + codPaisUser);
+					return null;
+				}
+
+
+				//Consulta formulário pai de companyCode
+				c2 = DatasetFactory.createConstraint('cod_acc', codAccUser, codAccUser, ConstraintType.MUST);
+				var c3 = DatasetFactory.createConstraint('cod_pais', codPaisUser, codPaisUser, ConstraintType.MUST);
+				constraints = new Array(c1, c2, c3);
+				fields = new Array("documentid", "version");
+				var datasetPaiCC = DatasetFactory.getDataset("atento_Pais_Acc", fields, constraints, null);
+
+				var documentIdPaiCC = null;
+				var versionPaiCC = null;
+				for (var i = 0; i < datasetPaiCC.values.length; i++) {
+					documentIdPaiCC = datasetPaiCC.values[i]["documentid"];
+					versionPaiCC = datasetPaiCC.values[i]["version"];
+				}
+
+				if (documentIdPaiCC == null || versionPaiCC == null) {
+					console.log("documentIdPaiCC " + documentIdPaiCC + ", versionPaiCC" + versionPaiCC);
+					return null;
+				}
+
+				//Consulta formulário pai de companyCode
+				c2 = DatasetFactory.createConstraint('documentid', documentIdPaiCC, documentIdPaiCC, ConstraintType.MUST);
+				c3 = DatasetFactory.createConstraint('metadata#version', versionPaiCC, versionPaiCC, ConstraintType.MUST);
+				var c4 = DatasetFactory.createConstraint('tablename', "tbCompanyCode", "tbCompanyCode", ConstraintType.MUST);
+				var constraints = new Array(c1, c2, c3, c4);
+				fields = new Array("companyCode", "companyCodeDesc");
+				var datasetCompanyCode = DatasetFactory.getDataset("atento_Pais_Acc", fields, constraints, null);
+
+				for (var i = 0; i < datasetCompanyCode.values.length; i++) {
+					var companyCodeObj = {};
+					companyCodeObj.value = datasetCompanyCode.values[i].companyCode;
+					companyCodeObj.text = datasetCompanyCode.values[i].companyCodeDesc;
+					companyCodeList.push(companyCodeObj);
+				}
+
+
+				for (var i = 0; i < datasetPais.values.length; i++) {
+					var documentId = datasetPais.values[i]["metadata#id"];
+					var documentVersion = datasetPais.values[i]["metadata#version"];
+
+					//Cria as constraints para buscar os campos filhos, passando o tablename, número da formulário e versão
+					var c1f = DatasetFactory.createConstraint("tablename", "paises", "paises", ConstraintType.MUST);
+					var c2f = DatasetFactory.createConstraint("metadata#id", documentId, documentId, ConstraintType.MUST);
+					var c3f = DatasetFactory.createConstraint("metadata#version", documentVersion, documentVersion, ConstraintType.MUST);
+					var c4f = DatasetFactory.createConstraint("metadata#active", true, true, ConstraintType.MUST);
+
+					var constraintsFilhos = new Array();
+
+					constraintsFilhos.push(c1f);
+					constraintsFilhos.push(c2f);
+					constraintsFilhos.push(c3f);
+					constraintsFilhos.push(c4f);
+
+					var datasetFilhos = DatasetFactory.getDataset("atento_usuarios_Fluig_SAP", null, constraintsFilhos, null);
+
+					for (var j = 0; j < datasetFilhos.values.length; j++) {
+
+						//Consulta formulário pai de companyCode
+						c2 = DatasetFactory.createConstraint('cod_pais', datasetFilhos.values[j]["txtCountryAux"], datasetFilhos.values[j]["txtCountryAux"], ConstraintType.MUST);
+						constraints = new Array(c1, c2);
+						fields = new Array("documentid", "version");
+						datasetPaiCC = DatasetFactory.getDataset("atento_Pais_Acc", fields, constraints, null);
+
+						documentIdPaiCC = null;
+						versionPaiCC = null;
+						for (var i = 0; i < datasetPaiCC.values.length; i++) {
+							documentIdPaiCC = datasetPaiCC.values[i]["documentid"];
+							versionPaiCC = datasetPaiCC.values[i]["version"];
+						}
+
+						if (documentIdPaiCC == null || versionPaiCC == null) {
+							console.log("documentIdPaiCC " + documentIdPaiCC + ", versionPaiCC" + versionPaiCC);
+							return null;
+						}
+
+						//Consulta formulário pai de companyCode
+						c2 = DatasetFactory.createConstraint('documentid', documentIdPaiCC, documentIdPaiCC, ConstraintType.MUST);
+						c3 = DatasetFactory.createConstraint('metadata#version', versionPaiCC, versionPaiCC, ConstraintType.MUST);
+						c4 = DatasetFactory.createConstraint('tablename', "tbCompanyCode", "tbCompanyCode", ConstraintType.MUST);
+						constraints = new Array(c1, c2, c3, c4);
+						fields = new Array("companyCode", "companyCodeDesc");
+						datasetCompanyCode = DatasetFactory.getDataset("atento_Pais_Acc", fields, constraints, null);
+
+						for (var i = 0; i < datasetCompanyCode.values.length; i++) {
+							var companyCodeObj = {};
+							companyCodeObj.value = datasetCompanyCode.values[i].companyCode;
+							companyCodeObj.text = datasetCompanyCode.values[i].companyCodeDesc;
+							companyCodeList.push(companyCodeObj);
+						}
+
+					}
+				}
+
+
+			}
+
+			return companyCodeList;
+		}
+
+		function loadCompanyCode(companyCode) {
+			console.log("Carregando companys...");
+			companyCode = (companyCode == "") ? null : companyCode;
+			console.log("CompanyCode:" + companyCode);
+			var values = getCompanyCode(companyCode);
+			if (values.length > 1) {
+				$('#companyCodeCB').find('option').remove();
+				$('#companyCodeCB').append($('<option>', {
+					value: companyCode,
+					text: values[1].text
+				}));
+			}
+			if (companyCode) {
+				$('#companyCodeCB').val(companyCode);
+			}
+		}
+
+		function getPaisByAcc(object) {
+
+			var valor = $(object).val();
+
+			var pais = "";
+			var acc = "";
+
+			var datasetPais = DatasetFactory.getDataset("atento_Pais_Acc", new Array(), new Array(), new Array());
+
+			for (var i = 0; i < datasetPais.values.length; i++) {
+				var documentId = datasetPais.values[i]["metadata#id"];
+				var documentVersion = datasetPais.values[i]["metadata#version"];
+
+				//Cria as constraints para buscar os campos filhos, passando o tablename, número da formulário e versão
+				var c1f = DatasetFactory.createConstraint("tablename", "tbCompanyCode", "tbCompanyCode", ConstraintType.MUST);
+				var c2f = DatasetFactory.createConstraint("metadata#id", documentId, documentId, ConstraintType.MUST);
+				var c3f = DatasetFactory.createConstraint("metadata#version", documentVersion, documentVersion, ConstraintType.MUST);
+				var c4f = DatasetFactory.createConstraint("metadata#active", true, true, ConstraintType.MUST);
+				var c5f = DatasetFactory.createConstraint("companyCode", valor, valor, ConstraintType.MUST);
+
+				var constraintsFilhos = new Array();
+
+				constraintsFilhos.push(c1f);
+				constraintsFilhos.push(c2f);
+				constraintsFilhos.push(c3f);
+				constraintsFilhos.push(c4f);
+				constraintsFilhos.push(c5f);
+
+				var datasetFilhos = DatasetFactory.getDataset("atento_Pais_Acc", null, constraintsFilhos, null);
+
+				var records = datasetFilhos.values;
+
+				if (records.length > 0) {
+					pais = datasetPais.values[i]['cod_pais'];
+					acc = datasetPais.values[i]['cod_acc'];
+
+					$("input[name=accSolicitante]").val(acc);
+					$("input[name=paisSolicitante]").val(pais);
+				}
+
+			}
+
+
+		}
+
+		function recebeIdentificador() {
+			if ($("#tipoCompra").val() == "RFI" || $("#tipoCompra").val() == "PRORROG" || $("#tipoCompra").val() == "CATALOGO") {
+				
+				var cdEmpresa = $("#companyCodeCB option:selected").val();
+				var c1 = DatasetFactory.createConstraint("empresa", cdEmpresa, cdEmpresa, ConstraintType.MUST);
+				var dsPaisSolic = DatasetFactory.getDataset("dsBuscarPaisEmpresa", null, [c1], null);
+				var paisPai = dsPaisSolic.values[0]["Pais_Pai"];
+
+				$("#identificador").val(paisPai + " - " + $("#tipoCompra").val());
+			}
+		}
+
+		FLUIGC.popover('.bs-docs-popover-hover', { trigger: 'hover', placement: 'right', dataContainer: '.modal-body', html: true });
+		FLUIGC.popover('.bs-docs-popover-hover1', { trigger: 'hover', placement: 'top', dataContainer: '.modal-body', html: true });
+
+		/* Funcao para verificar se o pais esta com Centro de Lucro ativado na Pais x Acc */
+		function verificaCentroLucroPais(acc) {
+			var c1 = DatasetFactory.createConstraint("metadata#active", true, true, ConstraintType.MUST);
+			var c2 = DatasetFactory.createConstraint("cod_acc", acc, acc, ConstraintType.MUST);
+			var c3 = DatasetFactory.createConstraint("cbCentroLucro", "on", "on", ConstraintType.MUST);
+			var filtro = new Array(c1, c2, c3);
+			var dsCentroLucro = DatasetFactory.getDataset("Atento_Pais_Acc", null, filtro, null);
+
+			if (dsCentroLucro == null || dsCentroLucro.values.length == 0) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+		
+		function validarMoedaPais(){
+			var acc = $("input[name='accSolicitante']").val();
+			
+			// Mostrar somente BRL para SAP Brasil
+			if(acc == "CC01" || acc == "CC02" || acc == "CC03"){
+				var opcaoMoeda = $("select[name='moeda'").find('option');
+				var totalOpcoes = opcaoMoeda.length;
+
+				for(var i = 0; i < totalOpcoes; i ++){
+					// Comparar por value quando o codigo da moeda passar a ser a sigla e não id do Fluig.
+					if(opcaoMoeda[i].text == "BRL"){
+						$("select[name='moeda'").val(opcaoMoeda[i].value);
+					}
+				}
+			}
+		}
+	</script>
+
+</body>
+
+</html>
