@@ -15,12 +15,18 @@ function verificarProxAprovador(){
 	var tipoDespesa = hAPI.getCardValue("tipoDespesa");	
 	var tipoCompra = hAPI.getCardValue("tipoCompra");	
 	var codigoVendas = hAPI.getCardValue("codigoDocVendas");
+	var sapBrasil = new Array("CC01", "CC02", "CC03");	
+	var isBrasil =  (new java.util.Arrays.asList(sapBrasil).indexOf(acc) != -1) ? true : false;
 	
 	// Este ID deve ser igual da moeda Dolar cadastrado na tabela auxiliar 
 	// localizada em "Raíz / Configurações dos Processos Fluig / Tabelas Auxiliares / Cadastro de Moedas
 	// Pois somente sera feita a conversao quando for diferente de Dolar
-
+	
+	log.info("[Requisicao Compra] [verificarProxAprovador] [numProcess: " + numProces + "] isBrasil: " + isBrasil);	
 	log.info("[Requisicao Compra] [verificarProxAprovador] [numProcess: " + numProces + "] Moeda: " + moeda);	
+	log.info("[Requisicao Compra] [verificarProxAprovador] [numProcess: " + numProces + "] codigoServico: " + codigoServico);	
+	log.info("[Requisicao Compra] [verificarProxAprovador] [numProcess: " + numProces + "] tipoDespesa: " + tipoDespesa);	
+	log.info("[Requisicao Compra] [verificarProxAprovador] [numProcess: " + numProces + "] codigoVendas: " + codigoVendas);	
 
 	if(moeda != 30){
 		var cMoeda1 = DatasetFactory.createConstraint("id", moeda, moeda, ConstraintType.MUST);
@@ -43,21 +49,10 @@ function verificarProxAprovador(){
 	
 	if (!(tipoCompra == "RFI" || tipoCompra == "CATALOGO" || tipoCompra == "PRORROG")) {
 		log.info("[Requisicao Compra] [verificarProxAprovador] [numProcess: " + numProces + "] tipoCompra diferente de RFI ou Catálogo ou Prorrogação");
+		
 		//tratamento para verificar se CECO, COD SERVICO ou DESTINATARIO existem
 		if(nivelAtual == ""){
-			/* Ambiente de Producao */
-			var sapGlobal = "SAPPRD100";
-			var sapBrasil = "SAPP01100";
-			
-			/* 	Receber ConectionId da Solicitacao para distinguir o codigo do SAP Global ou SAP Brasil */
-			var c1 = DatasetFactory.createConstraint("code_acc", acc, acc, ConstraintType.MUST);
-			var dsIntegracao = DatasetFactory.getDataset("Atento_SAP_Dados_Integracao", null, [c1], null);
-			var codSAPSolicitacao = (dsIntegracao.rowsCount > 0) ? dsIntegracao.getValue(0, "SAPConnectionId") : null;
-			if(codSAPSolicitacao == null){
-				log.error("[Aprovar Pedido Compra] [beforeStateEntry] [numProcess: " + numProces + "] Não foi possível identificar para qual SAP será enviada a solicitação, verifique se a Acc está cadastrada corretamente nas tabelas auxiliares.");
-				throw "Houve um problema ao tentar identificar o destino da solicitação. Por favor, contate o departamento de TI.";
-			}
-			
+
 			nivelAtual = 1;
 			
 			//Lista niveis cadastrados
@@ -78,16 +73,14 @@ function verificarProxAprovador(){
 				var dsAprov;
 				
 				if(tipoDespesa == "Z"){
-					if(codSAPSolicitacao == sapGlobal){
-						// Buscar na tabela de Aprovadores do Ahora
-						arrAprov.push(DatasetFactory.createConstraint("codigo_servico", codigoServico, codigoServico, ConstraintType.MUST));
-						dsAprov = DatasetFactory.getDataset("atento_aprovadores_codigo_servico", null, arrAprov, null);
-					}else{
-						// Buscar na tabela de Aprovadores do Brasil
-						arrAprov.push(DatasetFactory.createConstraint("codigo_vendas", codigoVendas, codigoVendas, ConstraintType.MUST));
-						dsAprov = DatasetFactory.getDataset("atento_aprovadores_codigo_vendas", null, arrAprov, null);
+					
+					if(!isBrasil){
+						codigoVendas = "00" + codigoServico.slice(0, 8);
 					}
-				}else{
+
+					arrAprov.push(DatasetFactory.createConstraint("codigo_vendas", codigoVendas, codigoVendas, ConstraintType.MUST));
+					dsAprov = DatasetFactory.getDataset("atento_aprovadores_codigo_vendas", null, arrAprov, null);
+				} else{
 					arrAprov.push(DatasetFactory.createConstraint("centro_custo", centroCusto, centroCusto, ConstraintType.MUST));
 					dsAprov = DatasetFactory.getDataset("atento_aprovadores_centro_custo", null, arrAprov, null);
 				}
@@ -171,16 +164,14 @@ function verificarProxAprovador(){
 			
 			var dsAprov;
 			
-			if(tipoDespesa == "Z"){				
-				if(codSAPSolicitacao == sapGlobal){
-					// Buscar na tabela de Aprovadores do Ahora
-					arrAprov.push(DatasetFactory.createConstraint("codigo_servico", codigoServico, codigoServico, ConstraintType.MUST));
-					dsAprov = DatasetFactory.getDataset("atento_aprovadores_codigo_servico", null, arrAprov, null);
-				}else{
-					// Buscar na tabela de Aprovadores do Brasil
-					arrAprov.push(DatasetFactory.createConstraint("codigo_vendas", codigoVendas, codigoVendas, ConstraintType.MUST));
-					dsAprov = DatasetFactory.getDataset("atento_aprovadores_codigo_vendas", null, arrAprov, null);
+			if(tipoDespesa == "Z"){
+				
+				if(!isBrasil){
+					codigoVendas = "00" + codigoServico.slice(0, 8);
 				}
+				
+				arrAprov.push(DatasetFactory.createConstraint("codigo_vendas", codigoVendas, codigoVendas, ConstraintType.MUST));
+				dsAprov = DatasetFactory.getDataset("atento_aprovadores_codigo_vendas", null, arrAprov, null);
 			}else{
 				arrAprov.push(DatasetFactory.createConstraint("centro_custo", centroCusto, centroCusto, ConstraintType.MUST));
 				dsAprov = DatasetFactory.getDataset("atento_aprovadores_centro_custo", null, arrAprov, null);

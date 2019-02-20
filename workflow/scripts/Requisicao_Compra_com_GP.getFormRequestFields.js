@@ -51,26 +51,17 @@ function getFormRequestFields(){
 	}else if(tipoDespesa == "Z"){
 		numOrdemInterna = hAPI.getCardValue("codigoServico");
 	}
-
-	/* Ambiente de Producao */
-	var sapGlobal = "SAPPRD100";
-	var sapBrasil = "SAPP01100";
-
-	log.info("[Requisicao Compra] [getFormRequestFields] [numProcess: " + numProces + "] Acc: " + acc);
 	
-	/* 	Receber ConectionId da Solicitacao para distinguir o codigo do SAP Global ou SAP Brasil*/
 	var c1 = DatasetFactory.createConstraint("code_acc", acc, acc, ConstraintType.MUST);
 	var dsIntegracao = DatasetFactory.getDataset("Atento_SAP_Dados_Integracao", null, [c1], null);
 	var codSAPSolicitacao = (dsIntegracao != null && dsIntegracao.rowsCount > 0) ? dsIntegracao.getValue(0, "SAPConnectionId") : null;
 	
-	if(codSAPSolicitacao == null || codSAPSolicitacao.rowsCount == 0){
-		log.error("Não foi possível identificar para qual SAP será enviada a solicitação, verifique se a Acc está cadastrada corretamente nas tabelas auxiliares.");
-		throw "Houve um problema ao tentar identificar o destino da solicitação. Por favor, contate o departamento de TI.";
-	}
+	var sapBrasil = new Array("CC01", "CC02", "CC03");
+	var isBrasil = (new java.util.Arrays.asList(sapBrasil).indexOf(acc) != -1) ? true : false;
 	
-	log.info("[Requisicao Compra] [getFormRequestFields] [numProcess: " + numProces + "] codSAPSolicitacao: " + codSAPSolicitacao);
+	log.info("[Requisicao Compra] [getFormRequestFields] [numProcess: " + numProces + "] Acc: " + acc);
 	
-	var tipoPedido = (codSAPSolicitacao == sapGlobal) ? "ZAT" : "NB";
+	var tipoPedido = (!isBrasil) ? "ZAT" : "NB";
 	log.info("[Requisicao Compra] [getFormRequestFields] [numProcess: " + numProces + "] Tipo do Pedido: " + tipoPedido);
 	
 	var deleteInd = "";
@@ -81,14 +72,13 @@ function getFormRequestFields(){
 	
 	log.info("[Requisicao Compra] [getFormRequestFields] [numProcess: " + numProces + "] acaoRequisicao: " + acaoRequisicao);
 	
-	/* CAMPOS EXCLUSIVOS DO SAP BRASIL */
 	var codigoDocVendas = "";
 	var codigoCliente = "";
 	var siteOperacao = "";
 	var produtoPrincipal = "";
 	var centroLucro = "";
 
-	if(codSAPSolicitacao == sapBrasil){
+	if(isBrasil){
 		
 		if(tipoDespesa == "Z"){
 			// Campos exclusivos do Opex a servicos e Pais Brasil
@@ -101,8 +91,6 @@ function getFormRequestFields(){
 		}
 		
 		catClassifContabil = hAPI.getCardValue("tipoDespesa");
-	} else{
-		
 	}
 
 	// Moeda
@@ -204,8 +192,8 @@ function getFormRequestFields(){
    mapFields.centroLucro = centroLucro;
    mapFields.codSAPSolicitacao = codSAPSolicitacao;
    mapFields.acc = acc;
-   mapFields.sapGlobal = sapGlobal;
-   mapFields.sapBrasil = sapBrasil;
+   //mapFields.sapGlobal = sapGlobal;
+   //mapFields.sapBrasil = sapBrasil;
    log.info("[Requisicao Compra] [getFormRequestFields] [numProcess: " + numProces + "] FINAL");
    
    return mapFields;
